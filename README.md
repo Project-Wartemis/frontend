@@ -9,3 +9,4 @@
 
 * Links
   1. Frontend => Backend : HTTP
+  2. Frontend <=> Backend : Websockets

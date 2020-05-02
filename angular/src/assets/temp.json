@@ -1,0 +1,22 @@
+[{
+  "id": 0,
+  "name": "Game 1",
+  "slots": 2,
+  "turn": 0,
+  "players": [{
+    "id": 0,
+    "name": "Robbot"
+  }]
+}, {
+  "id": 1,
+  "name": "Game 2",
+  "slots": 2,
+  "turn": 6,
+  "players": [{
+    "id": 6,
+    "name": "Robbot"
+  },{
+    "id": 38,
+    "name": "Queerten"
+  }]
+}]
