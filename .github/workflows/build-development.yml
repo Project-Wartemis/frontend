@@ -27,5 +27,5 @@ jobs:
     - run: npm install
     - run: npm run lint
     # - run: npm run test # temporarily disabled untill tests are implemented
-    - run: npm run e2e # temporarily disabled untill tests are implemented
+    # - run: npm run e2e # temporarily disabled untill tests are implemented
     - run: npm run build
