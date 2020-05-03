@@ -17,30 +17,43 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
+
+    - name: Extract branch name
+      id: extract_branch
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+
     - name: Checkout
       uses: actions/checkout@v2
+
     - name: Use Node.js
       uses: actions/setup-node@v1
       with:
         node-version: ${{env.NODE_VERSION}}
+
     - name: Retrieve cache
       uses: actions/cache@v1
       with:
         path: angular/node_modules
         key: node-modules-${{ hashFiles('**/package-lock.json') }}
+
     - name: Install
       run: npm install
+
     - name: Lint
       run: npm run lint
+
     - name: Compile
       run: npm run build
+
     - name: Docker login
       uses: azure/docker-login@v1
       with:
         login-server: contoso.azurecr.io
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
     - name: Docker build
-      run: docker build .. -t wartemis/frontend:${{ github.ref }} -t wartemis/frontend:${{ github.sha }}
+      run: docker build .. -t wartemis/frontend:${{ steps.extract_branch.outputs.branch }} -t wartemis/frontend:${{ github.sha }}
+
     - name: Docker push
       run: docker push wartemis/frontend:${{ github.sha }}
