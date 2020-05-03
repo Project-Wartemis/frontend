@@ -28,4 +28,4 @@ jobs:
     - run: npm run lint
     - run: npm run build
     - run: docker build .. -t wartemis/frontend:${{ github.sha }}
-    - run: docker run -dit -p 8080:80 wartemis/frontend
+    - run: docker run -dit -p 8080:80 wartemis/frontend:${{ github.sha }}
