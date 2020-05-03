@@ -1,6 +1,3 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: build development
 
 on:
@@ -14,18 +11,39 @@ defaults:
     working-directory: angular
 
 jobs:
-  build:
 
+  setup-node-modules:
     runs-on: self-hosted
+    step:
+    - name: Cache
+      uses: actions/cache@v1
+      with:
+        path: angular/node_modules
+        key: node_modules-${{ hashFiles('npm-shrinkwrap.json') }}
+        restore-keys: node_modules-
+    - name: Install
+      run: npm install
 
+  build:
+    runs-on: self-hosted
+    needs: setup-node-modules
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
     - name: Use Node.js
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    - run: npm install
-    - run: npm run lint
-    - run: npm run build
-    - run: docker build .. -t wartemis/frontend:${{ github.sha }}
-    - run: docker run -dit -p 8080:80 wartemis/frontend:${{ github.sha }}
+    - name: Install node_modules
+      uses: actions/cache@v1
+      with:
+        path: angular/node_modules
+        key: node_modules-${{ hashFiles('npm-shrinkwrap.json') }}
+    - name: Lint
+      run: npm run lint
+    - name: Compile
+      run: npm run build
+    - name: Build
+      run: docker build .. -t wartemis/frontend:development
+    - name: Run
+      run: docker run -dit -p 8080:80 wartemis/frontend:development
