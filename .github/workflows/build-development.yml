@@ -29,5 +29,5 @@ jobs:
     # - run: npm run test # temporarily disabled untill tests are implemented
     # - run: npm run e2e # temporarily disabled untill tests are implemented
     - run: npm run build
-    - run: docker build -t project-artemis/frontend:${{ github.sha }} .
+    - run: docker build -t project-artemis/frontend:${{ github.sha }} ..
     - run: docker run -dit -p 8080:80 project-artemis/frontend
