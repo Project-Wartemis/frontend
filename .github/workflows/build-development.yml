@@ -24,10 +24,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    - run: npm install
-    - run: npm run lint
-    # - run: npm run test # temporarily disabled untill tests are implemented
-    # - run: npm run e2e # temporarily disabled untill tests are implemented
-    - run: npm run build
-    - run: docker build -t project-artemis/frontend:${{ github.sha }} ..
-    - run: docker run -dit -p 8080:80 project-artemis/frontend
+    - run: |
+      npm install
+      npm run lint
+    # npm run test # temporarily disabled untill tests are implemented
+    # npm run e2e # temporarily disabled untill tests are implemented
+      docker build .. -t wartemis/frontend:${{ github.sha }}
+      docker run -dit -p 8080:80 wartemis/frontend
