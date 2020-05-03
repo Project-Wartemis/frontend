@@ -48,7 +48,7 @@ jobs:
     - name: Docker login
       uses: azure/docker-login@v1
       with:
-        login-server: contoso.azurecr.io
+        login-server: docker.com
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
