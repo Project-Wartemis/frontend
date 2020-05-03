@@ -14,7 +14,7 @@ jobs:
 
   setup-node-modules:
     runs-on: self-hosted
-    step:
+    steps:
     - name: Cache
       uses: actions/cache@v1
       with:
