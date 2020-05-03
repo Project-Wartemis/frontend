@@ -3,6 +3,7 @@ name: build development
 on:
   push:
     branches:
+    - master
     - development
 
 defaults:
@@ -20,7 +21,7 @@ jobs:
 
     - name: Extract branch name
       id: extract_branch
-      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      run: echo ::set-env name=BRANCH::$(echo ${GITHUB_REF#refs/heads/})
 
     - name: Checkout
       uses: actions/checkout@v2
@@ -45,15 +46,11 @@ jobs:
     - name: Compile
       run: npm run build
 
-    - name: Docker login
-      uses: azure/docker-login@v1
+    - name: Docker
+      uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        login-server: docker.io
+        name: wartemis/frontend
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
-    - name: Docker build
-      run: docker build .. -t docker.io/wartemis/frontend:${{ steps.extract_branch.outputs.branch }} -t wartemis/frontend:${{ github.sha }}
-
-    - name: Docker push
-      run: docker push docker.io/wartemis/frontend:${{ github.sha }}
+        snapshot: true
+        tags: "${{ env.BRANCH }}"
