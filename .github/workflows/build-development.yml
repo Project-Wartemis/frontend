@@ -34,7 +34,13 @@ jobs:
       run: npm run lint
     - name: Compile
       run: npm run build
-    - name: Build
-      run: docker build .. -t wartemis/frontend:development
-    - name: Run
-      run: docker run -dit -p 8080:80 wartemis/frontend:development
+    - name: Docker login
+      uses: azure/docker-login@v1
+      with:
+        login-server: contoso.azurecr.io
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    - name: Docker build
+      run: docker build .. -t wartemis/frontend:${{ github.ref }} -t wartemis/frontend:${{ github.sha }}
+    - name: Docker push
+      run: docker push wartemis/frontend:${{ github.sha }}
