@@ -10,11 +10,18 @@ defaults:
     shell: bash
     working-directory: angular
 
+env:
+  NODE_VERSION: 12.x
+
 jobs:
 
   setup-node-modules:
     runs-on: self-hosted
     steps:
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: $NODE_VERSION
     - name: Cache
       uses: actions/cache@v1
       with:
@@ -30,10 +37,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
     - name: Install node_modules
       uses: actions/cache@v1
       with:
