@@ -17,17 +17,23 @@ jobs:
 
   setup-node-modules:
     runs-on: self-hosted
+    outputs:
+      hash: ${{ steps.logger.outputs.hash }}
     steps:
     - name: Use Node.js
       uses: actions/setup-node@v1
       with:
         node-version: ${{env.NODE_VERSION}}
     - name: Cache
+      id: cache
       uses: actions/cache@v1
       with:
         path: angular/node_modules
         key: node_modules-${{ hashFiles('npm-shrinkwrap.json') }}
         restore-keys: node_modules-
+    - name: Log cache
+      id: logger
+      run: echo "::set-output name=cache::${{ hashFiles('npm-shrinkwrap.json') }}"
     - name: Install
       run: npm install
 
@@ -41,7 +47,11 @@ jobs:
       uses: actions/cache@v1
       with:
         path: angular/node_modules
-        key: node_modules-${{ hashFiles('npm-shrinkwrap.json') }}
+        key: node_modules-${{ needs.setup-node-modules.outputs.hash }}
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{env.NODE_VERSION}}
     - name: Lint
       run: npm run lint
     - name: Compile
