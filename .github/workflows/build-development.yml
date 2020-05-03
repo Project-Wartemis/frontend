@@ -24,8 +24,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    - run: |
-        npm install
-        npm run lint
-        docker build .. -t wartemis/frontend:${{ github.sha }}
-        docker run -dit -p 8080:80 wartemis/frontend
+    - run: npm install
+    - run: npm run lint
+    - run: npm run build
+    - run: docker build .. -t wartemis/frontend:${{ github.sha }}
+    - run: docker run -dit -p 8080:80 wartemis/frontend
