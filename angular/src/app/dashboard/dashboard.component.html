@@ -1,8 +1,0 @@
-<div *ngFor="let game of games$ | async">
-	<div>Name: {{game.name}}</div>
-	<div *ngIf="game.turn">Turn: {{game.turn}}</div>
-	<div>Players: {{game.players.length}} / {{game.slots}}</div>
-	<div *ngFor="let player of game.players">
-		<div>Name: {{player.name}}</div>
-	</div>
-</div>
