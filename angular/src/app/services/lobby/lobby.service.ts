@@ -29,8 +29,8 @@ export class LobbyService {
   newRoom(room: Room): void {
     this.http.post<Room>('/api/room', room)
       .pipe(
-        map(room => this.newRoomSuccess(room)),
-        catchError(error => this.newRoomError(error))
+        map(_ => this.newRoomSuccess(_)),
+        catchError(_ => this.newRoomError(_))
       )
       .subscribe();
   }
@@ -40,8 +40,8 @@ export class LobbyService {
     return room;
   }
 
-  newRoomError(e): Observable<never> {
-    this.snackbarService.error('Creating the game failed, please try again', e);
+  newRoomError(error: Error): Observable<never> {
+    this.snackbarService.error('Creating the game failed, please try again', error);
     return EMPTY;
   }
 }

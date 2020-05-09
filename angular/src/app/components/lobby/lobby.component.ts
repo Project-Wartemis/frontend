@@ -34,7 +34,9 @@ export class LobbyComponent implements OnInit {
       width: '250px'
     });
     dialogRef.afterClosed().subscribe(room => {
-      if(!room) return;
+      if(!room) {
+        return;
+      }
       this.newRoom(room);
     });
   }
