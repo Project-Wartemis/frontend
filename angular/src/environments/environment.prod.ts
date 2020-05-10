@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api_url: 'api.wartemis.com/'
+  api_url: 'http://api.wartemis.com/'
 };
