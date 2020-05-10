@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable, timer, EMPTY, BehaviorSubject } from 'rxjs';
@@ -7,6 +6,7 @@ import { catchError, concatMap , map } from 'rxjs/operators';
 import { Client } from 'interfaces/client';
 import { Lobby } from 'interfaces/lobby';
 import { Room } from 'interfaces/room';
+import { HttpService } from 'services/http/http.service';
 import { SnackbarService } from 'services/snackbar/snackbar.service';
 
 @Injectable({
@@ -17,19 +17,19 @@ export class LobbyService {
   lobby$: BehaviorSubject<Lobby>;
 
   constructor(
-    private http: HttpClient,
+    private http: HttpService,
     private snackbarService: SnackbarService,
   ) {
     this.lobby$ = new BehaviorSubject<Lobby>(null);
     timer(0, 1000).pipe(
       concatMap (() =>
-        this.http.get<Lobby>('/api/lobby')
+        this.http.get<Lobby>('lobby')
       )
     ).subscribe(this.lobby$);
   }
 
   newRoom(room: Room): void {
-    this.http.post<Room>('/api/room', room)
+    this.http.post<Room>('room', room)
       .pipe(
         map(_ => this.newRoomSuccess(_)),
         catchError(_ => this.newRoomError(_))
@@ -48,7 +48,7 @@ export class LobbyService {
   }
 
   addClientToRoom(room: Room, client: Client): void {
-    this.http.post<Client>(`/api/room/${room.key}/client`, JSON.stringify(client.key))
+    this.http.post<Client>(`room/${room.key}/client`, JSON.stringify(client.key))
       .pipe(
         map(_ => this.addClientToRoomSuccess(_)),
         catchError(_ => this.addClientToRoomError(_))
