@@ -38,7 +38,7 @@ jobs:
       run: npm run lint
 
     - name: Compile
-      run: npm run build
+      run: npm run prod
 
     - name: Docker
       uses: elgohr/Publish-Docker-Github-Action@master
