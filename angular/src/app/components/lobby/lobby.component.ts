@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { Observable, throwError } from 'rxjs';
+import { Observable, Subscription, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { Lobby } from 'interfaces/lobby';
@@ -14,19 +14,24 @@ import { NewRoomDialogComponent } from 'components/dialogs/new-room/new-room.com
   templateUrl: './lobby.component.html',
   styleUrls: ['./lobby.component.scss']
 })
-export class LobbyComponent implements OnInit {
+export class LobbyComponent implements OnInit, OnDestroy {
 
   lobby: Lobby;
+  subscriptions: Subscription[] = [];
 
   constructor(
     private dialog: MatDialog,
-    private lobbyService: LobbyService
+    private lobbyService: LobbyService,
   ) { }
 
   ngOnInit(): void {
-    this.lobbyService.lobby$.subscribe({
+    this.subscriptions.push(this.lobbyService.lobby$.subscribe({
       next: lobby => this.lobby = lobby
-    });
+    }));
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   newRoomDialog(): void {
@@ -34,10 +39,9 @@ export class LobbyComponent implements OnInit {
       width: '250px'
     });
     dialogRef.afterClosed().subscribe(room => {
-      if(!room) {
-        return;
+      if(room) {
+        this.newRoom(room);
       }
-      this.newRoom(room);
     });
   }
 

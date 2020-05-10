@@ -12,7 +12,7 @@ export class NewRoomDialogComponent {
   room: Room;
 
   constructor(
-    private dialogRef: MatDialogRef<NewRoomDialogComponent>
+    private dialogRef: MatDialogRef<NewRoomDialogComponent>,
   ) {
     this.room = {} as Room;
   }
@@ -20,5 +20,4 @@ export class NewRoomDialogComponent {
   close(room?: Room): void {
     this.dialogRef.close(room);
   }
-
 }

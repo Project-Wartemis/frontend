@@ -1,0 +1,62 @@
+<div fxFlexFill fxLayout="row">
+
+  <!-- left menu -->
+  <mat-accordion multi="true" class="roomNavLeft">
+
+    <!-- bots -->
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Bots ({{room?.clients.length}})
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-action-list>
+        <mat-list-item (click)="addClientDialog()">
+          <mat-icon matListIcon>add</mat-icon>
+          Add a bot!
+        </mat-list-item>
+        <mat-list-item *ngFor="let client of room?.clients">
+          <mat-icon matListIcon>memory</mat-icon>
+          {{client.name}} - {{client.key | slice:0:14}}...
+        </mat-list-item>
+      </mat-action-list>
+    </mat-expansion-panel>
+
+    <!-- spectators -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Spectators (0)
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-action-list>
+        <!-- TODO -->
+        <!--<mat-list-item *ngFor="let client of room?.clients">
+          {{client.name}} - {{client.key}}
+        </mat-list-item>-->
+      </mat-action-list>
+    </mat-expansion-panel>
+
+    <!-- stats -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Properties
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-list>
+        <mat-list-item>
+          <mat-icon matListIcon>menu</mat-icon>
+          <span>Name: {{room?.name}}</span>
+        </mat-list-item>
+      </mat-list>
+    </mat-expansion-panel>
+
+  </mat-accordion>
+
+  <!-- content -->
+  <div fxFlex class="roomContent">
+    <!-- TODO -->
+  </div>
+
+</div>

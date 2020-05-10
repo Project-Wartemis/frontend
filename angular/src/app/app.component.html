@@ -1,22 +1,24 @@
-<div fxLayout="column" fxLayoutGap="1rem">
-  <mat-toolbar color="primary">
-    <button mat-icon-button>
-      <mat-icon>menu</mat-icon>
-    </button>
-    <h1>Wartemis</h1>
-  </mat-toolbar>
-  <div id="appContent">
-    <router-outlet></router-outlet>
-  </div>
-
-  <!--<mat-sidenav-container fxFlex class="example-container">
-    <mat-sidenav mode="side" opened>Drawer content
-      <mat-nav-list>
-        <a mat-list-item *ngFor="let client of lobby?.clients">{{client.name}}</a>
-      </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content>
+<mat-sidenav-container class="appNavLeft">
+  <mat-sidenav #sidenav mode="over">
+    <mat-action-list>
+      <mat-list-item [routerLink]="'/'" (click)="sidenav.close()">
+        <mat-icon matListIcon>home</mat-icon>
+        <h3 matLine>Lobby</h3>
+        <p matLine>
+          <span>{{pluralize(lobby?.rooms.length, 'game', 'games')}}</span>
+        </p>
+      </mat-list-item>
+    </mat-action-list>
+  </mat-sidenav>
+  <mat-sidenav-content fxLayout="column">
+    <mat-toolbar color="primary">
+      <button (click)="sidenav.toggle()" mat-icon-button>
+        <mat-icon>menu</mat-icon>
+      </button>
+      <h1>Wartemis</h1>
+    </mat-toolbar>
+    <div fxFlex>
       <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>-->
-</div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

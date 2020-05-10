@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { LobbyComponent } from 'components/lobby/lobby.component';
+import { RoomComponent } from 'components/room/room.component';
 
 const routes: Routes = [
   { path: '', component: LobbyComponent },
-  // { path: 'game/:gameId', component: LobbyComponent },
+  { path: 'room/:roomKey', component: RoomComponent },
 ];
 
 @NgModule({

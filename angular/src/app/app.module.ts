@@ -13,12 +13,16 @@ import { RoutingModule } from 'modules/routing.module';
 import { AppComponent } from './app.component';
 import { LobbyComponent } from 'components/lobby/lobby.component';
 import { NewRoomDialogComponent } from 'components/dialogs/new-room/new-room.component';
+import { RoomComponent } from './components/room/room.component';
+import { AddClientToRoomDialogComponent } from './components/dialogs/add-client-to-room/add-client-to-room.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LobbyComponent,
     NewRoomDialogComponent,
+    RoomComponent,
+    AddClientToRoomDialogComponent,
   ],
   imports: [
     // ----- EXTERNAL -----
