@@ -50,7 +50,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   addClientDialog(): void {
     const dialogRef = this.dialog.open(AddClientToRoomDialogComponent, {
       width: '250px',
-      data: {clients: this.lobby.clients},
+      data: {bots: this.lobby.bots},
     });
     dialogRef.afterClosed().subscribe(client => {
       if(client) {

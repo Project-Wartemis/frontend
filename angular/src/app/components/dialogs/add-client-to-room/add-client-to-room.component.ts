@@ -9,14 +9,14 @@ import { Client } from 'interfaces/client';
 })
 export class AddClientToRoomDialogComponent {
 
-  public selectedClient: Client;
+  public selectedBot: Client;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<AddClientToRoomDialogComponent>,
   ) { }
 
-  close(client?: Client): void {
-    this.dialogRef.close(client);
+  close(selectedBot?: Client): void {
+    this.dialogRef.close(selectedBot);
   }
 }

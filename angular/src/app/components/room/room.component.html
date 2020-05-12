@@ -7,7 +7,7 @@
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Bots ({{room?.clients.length}})
+          Bots ({{room?.bots.length}})
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-action-list>
@@ -15,9 +15,9 @@
           <mat-icon matListIcon>add</mat-icon>
           Add a bot!
         </mat-list-item>
-        <mat-list-item *ngFor="let client of room?.clients">
+        <mat-list-item *ngFor="let bot of room?.bots">
           <mat-icon matListIcon>memory</mat-icon>
-          {{client.name}} - {{client.key | slice:0:14}}...
+          {{bot.name}} - {{bot.key | slice:0:14}}...
         </mat-list-item>
       </mat-action-list>
     </mat-expansion-panel>
@@ -26,14 +26,14 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Spectators (0)
+          Spectators ({{room?.spectators.length}})
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-action-list>
-        <!-- TODO -->
-        <!--<mat-list-item *ngFor="let client of room?.clients">
-          {{client.name}} - {{client.key}}
-        </mat-list-item>-->
+        <mat-list-item *ngFor="let spectator of room?.spectators">
+          <mat-icon matListIcon>face</mat-icon>
+          {{spectator.name}}
+        </mat-list-item>
       </mat-action-list>
     </mat-expansion-panel>
 

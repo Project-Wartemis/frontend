@@ -14,7 +14,7 @@
             <mat-card-title>{{room.name}}</mat-card-title>
             <mat-card-subtitle fxLayout="row" fxLayoutAlign="center center">
               <mat-icon>memory</mat-icon>
-              {{room.clients.length}}
+              {{room.bots.length + room.spectators.length}}
               <mat-icon>face</mat-icon>
               0
             </mat-card-subtitle>

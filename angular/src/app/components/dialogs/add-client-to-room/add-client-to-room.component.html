@@ -1,15 +1,15 @@
 <h1 mat-dialog-title>Add Client</h1>
 <div mat-dialog-content>
   <mat-form-field>
-    <mat-label>Choose a client</mat-label>
-    <mat-select [(value)]="selectedClient">
-      <mat-option matInput *ngFor="let client of data.clients" [value]="client">
-        {{client.name}}
+    <mat-label>Choose a bot</mat-label>
+    <mat-select [(value)]="selectedBot">
+      <mat-option matInput *ngFor="let bot of data.bots" [value]="bot">
+        {{bot.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
 </div>
 <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-evenly">
   <button mat-button (click)="close()">Cancel</button>
-  <button mat-button (click)="close(selectedClient)">Ok</button>
+  <button mat-button (click)="close(selectedBot)">Ok</button>
 </div>
