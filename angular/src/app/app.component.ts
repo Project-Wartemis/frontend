@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
-import { Lobby } from 'interfaces/lobby';
-import { LobbyService } from 'services/lobby/lobby.service';
+import { Lobby } from 'interfaces/base';
+import { RoomService } from 'services/room/room.service';
+import { SessionService } from 'services/session/session.service';
+import { SetNameDialogComponent } from 'components/dialogs/set-name/set-name.component';
 
 @Component({
   selector: 'app-root',
@@ -13,13 +16,18 @@ export class AppComponent implements OnInit {
   lobby: Lobby;
 
   constructor(
-    private lobbyService: LobbyService,
+    private dialog: MatDialog,
+    public sessionService: SessionService,
+    private roomService: RoomService,
   ) { }
 
   ngOnInit(): void {
-    this.lobbyService.lobby$.subscribe({
+    this.roomService.lobby$.subscribe({
       next: lobby => this.lobby = lobby
     });
+    if(!this.sessionService.name$.getValue()) {
+      this.openDialogSetName();
+    }
   }
 
   pluralize(count: number, singular: string, plural: string): string {
@@ -27,5 +35,16 @@ export class AppComponent implements OnInit {
       return count + ' ' + singular;
     }
     return count + ' ' + plural;
+  }
+
+  openDialogSetName(): void {
+    const dialogRef = this.dialog.open(SetNameDialogComponent, {
+      width: '250px'
+    });
+    dialogRef.afterClosed().subscribe(name => {
+      if(name) {
+        this.sessionService.setName(name);
+      }
+    });
   }
 }

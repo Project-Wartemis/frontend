@@ -1,5 +1,5 @@
 <div class="lobbyRoot">
-  <button class="app-button-right-bottom" (click)="newRoomDialog()" mat-fab color="primary">
+  <button class="app-button-right-bottom" (click)="openDialogNewRoom()" mat-fab color="primary">
     <mat-icon>add</mat-icon>
   </button>
 
@@ -14,9 +14,9 @@
             <mat-card-title>{{room.name}}</mat-card-title>
             <mat-card-subtitle fxLayout="row" fxLayoutAlign="center center">
               <mat-icon>memory</mat-icon>
-              {{room.bots.length + room.spectators.length}}
+              {{room.clients.bot?.length || 0}}
               <mat-icon>face</mat-icon>
-              0
+              {{room.clients.viewer?.length || 0}}
             </mat-card-subtitle>
           </mat-card-header>
           <mat-card-actions fxLayout="row" fxLayoutAlign="center">

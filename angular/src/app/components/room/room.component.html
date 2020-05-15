@@ -7,15 +7,15 @@
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Bots ({{room?.bots.length}})
+          Bots ({{room?.clients.bot?.length || 0}})
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-action-list>
-        <mat-list-item (click)="addClientDialog()">
+        <mat-list-item (click)="openDialogAddBot()">
           <mat-icon matListIcon>add</mat-icon>
           Add a bot!
         </mat-list-item>
-        <mat-list-item *ngFor="let bot of room?.bots">
+        <mat-list-item *ngFor="let bot of room?.clients.bot">
           <mat-icon matListIcon>memory</mat-icon>
           {{bot.name}} - {{bot.key | slice:0:14}}...
         </mat-list-item>
@@ -26,13 +26,13 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Spectators ({{room?.spectators.length}})
+          Spectators ({{room?.clients.viewer?.length || 0}})
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-action-list>
-        <mat-list-item *ngFor="let spectator of room?.spectators">
+        <mat-list-item *ngFor="let viewer of room?.clients.viewer">
           <mat-icon matListIcon>face</mat-icon>
-          {{spectator.name}}
+          {{viewer.name}}
         </mat-list-item>
       </mat-action-list>
     </mat-expansion-panel>
@@ -55,8 +55,10 @@
   </mat-accordion>
 
   <!-- content -->
-  <div fxFlex class="roomContent">
-    <!-- TODO -->
+  <div fxFlex fxLayoutAlign="center center" class="roomContent">
+    <button *ngIf="!connected" (click)="connect()" mat-raised-button color="primary" >
+      Connect
+    </button>
   </div>
 
 </div>

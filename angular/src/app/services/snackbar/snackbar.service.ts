@@ -19,8 +19,11 @@ export class SnackbarService {
 
   error(message, error): void {
     console.error(message, error);
+    if(error?.error?.message) {
+      message = `${message} - ${error.error.message}`;
+    }
     this.snackBar.open(message, 'Close', {
-      duration: 3000
+      duration: 5000
     });
   }
 }

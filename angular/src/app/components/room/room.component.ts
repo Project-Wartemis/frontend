@@ -4,11 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
-import { Client } from 'interfaces/client';
-import { Lobby } from 'interfaces/lobby';
-import { Room } from 'interfaces/room';
-import { LobbyService } from 'services/lobby/lobby.service';
-import { AddClientToRoomDialogComponent } from 'components/dialogs/add-client-to-room/add-client-to-room.component';
+import { Lobby, Room } from 'interfaces/base';
+import { RoomService } from 'services/room/room.service';
+import { WebsocketService } from 'services/websocket/websocket.service';
+import { AddBotToRoomDialogComponent } from 'components/dialogs/add-bot-to-room/add-bot-to-room.component';
 
 @Component({
   selector: 'app-room',
@@ -20,18 +19,21 @@ export class RoomComponent implements OnInit, OnDestroy {
   lobby: Lobby;
   room: Room;
   subscriptions: Subscription[] = [];
+  connected: boolean;
+  socketKey: string;
 
   constructor(
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private lobbyService: LobbyService,
+    private roomService: RoomService,
+    private websocketService: WebsocketService,
   ) { }
 
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const roomKey = params.get('roomKey');
-      this.subscriptions.push(this.lobbyService.lobby$.subscribe({
+      this.subscriptions.push(this.roomService.lobby$.subscribe({
         next: lobby => {
           if(!lobby) {
             return;
@@ -45,21 +47,32 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.disconnect();
   }
 
-  addClientDialog(): void {
-    const dialogRef = this.dialog.open(AddClientToRoomDialogComponent, {
+  openDialogAddBot(): void {
+    const dialogRef = this.dialog.open(AddBotToRoomDialogComponent, {
       width: '250px',
-      data: {bots: this.lobby.bots},
+      data: {bots: this.lobby.clients.bot},
     });
-    dialogRef.afterClosed().subscribe(client => {
-      if(client) {
-        this.addClient(client);
+    dialogRef.afterClosed().subscribe(bot => {
+      if(bot) {
+        this.roomService.addBotToRoom(this.room, bot);
       }
     });
   }
 
-  addClient(client: Client): void {
-    this.lobbyService.addClientToRoom(this.room, client);
+  connect(): void {
+    this.socketKey = this.websocketService.connect(`socket/${this.room.key}`);
+    // TODO add message handlers
+    this.connected = true;
+  }
+
+  disconnect(): void {
+    if(!this.connected) {
+      return;
+    }
+    this.websocketService.disconnect(this.socketKey);
+    this.connected = false;
   }
 }

@@ -1,12 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { Observable, Subscription, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
-import { Lobby } from 'interfaces/lobby';
-import { Room } from 'interfaces/room';
-import { LobbyService } from 'services/lobby/lobby.service';
+import { Lobby } from 'interfaces/base';
+import { RoomService } from 'services/room/room.service';
 import { NewRoomDialogComponent } from 'components/dialogs/new-room/new-room.component';
 
 @Component({
@@ -21,11 +19,11 @@ export class LobbyComponent implements OnInit, OnDestroy {
 
   constructor(
     private dialog: MatDialog,
-    private lobbyService: LobbyService,
+    private roomService: RoomService,
   ) { }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.lobbyService.lobby$.subscribe({
+    this.subscriptions.push(this.roomService.lobby$.subscribe({
       next: lobby => this.lobby = lobby
     }));
   }
@@ -34,18 +32,14 @@ export class LobbyComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  newRoomDialog(): void {
+  openDialogNewRoom(): void {
     const dialogRef = this.dialog.open(NewRoomDialogComponent, {
       width: '250px'
     });
     dialogRef.afterClosed().subscribe(room => {
       if(room) {
-        this.newRoom(room);
+        this.roomService.newRoom(room);
       }
     });
-  }
-
-  newRoom(room: Room): void {
-    this.lobbyService.newRoom(room);
   }
 }

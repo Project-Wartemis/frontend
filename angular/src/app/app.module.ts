@@ -14,7 +14,8 @@ import { AppComponent } from './app.component';
 import { LobbyComponent } from 'components/lobby/lobby.component';
 import { NewRoomDialogComponent } from 'components/dialogs/new-room/new-room.component';
 import { RoomComponent } from './components/room/room.component';
-import { AddClientToRoomDialogComponent } from './components/dialogs/add-client-to-room/add-client-to-room.component';
+import { AddBotToRoomDialogComponent } from './components/dialogs/add-bot-to-room/add-bot-to-room.component';
+import { SetNameDialogComponent } from './components/dialogs/set-name/set-name.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AddClientToRoomDialogComponent } from './components/dialogs/add-client-
     LobbyComponent,
     NewRoomDialogComponent,
     RoomComponent,
-    AddClientToRoomDialogComponent,
+    AddBotToRoomDialogComponent,
+    SetNameDialogComponent,
   ],
   imports: [
     // ----- EXTERNAL -----

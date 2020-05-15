@@ -14,16 +14,27 @@ export class HttpService {
     private http: HttpClient,
   ) { }
 
-  getRoot(): string {
-    console.log(environment.api_url);
-    return environment.api_url;
+  getHttpRoot(): string {
+    return environment.http_root;
+  }
+
+  getWsRoot(): string {
+    return environment.ws_root;
+  }
+
+  getHttpUrl(path: string): string {
+    return this.getHttpRoot() + path;
+  }
+
+  getWsUrl(path: string): string {
+    return this.getWsRoot() + path;
   }
 
   get<T>(path: string): Observable<T> {
-    return this.http.get<T>(this.getRoot() + path);
+    return this.http.get<T>(this.getHttpUrl(path));
   }
 
   post<T>(path: string, body: any): Observable<T> {
-    return this.http.post<T>(this.getRoot() + path, body);
+    return this.http.post<T>(this.getHttpUrl(path), body);
   }
 }

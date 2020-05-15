@@ -11,11 +11,16 @@
     </mat-action-list>
   </mat-sidenav>
   <mat-sidenav-content fxLayout="column">
-    <mat-toolbar color="primary">
+    <mat-toolbar fxLayout="row" color="primary">
       <button (click)="sidenav.toggle()" mat-icon-button>
         <mat-icon>menu</mat-icon>
       </button>
       <h1>Wartemis</h1>
+      <span fxFlex></span>
+      <h1>{{sessionService.name$ | async}}</h1>
+      <button (click)="openDialogSetName()" mat-icon-button>
+        <mat-icon>refresh</mat-icon>
+      </button>
     </mat-toolbar>
     <div fxFlex>
       <router-outlet></router-outlet>
