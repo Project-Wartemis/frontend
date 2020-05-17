@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { Lobby, Room } from 'interfaces/base';
+import { GameConquestMockService } from 'services/game/conquest/game-conquest-mock.service';
+import { GameConquestStateService } from 'services/game/conquest/game-conquest-state.service';
 import { RoomService } from 'services/room/room.service';
 import { WebsocketService } from 'services/websocket/websocket.service';
 import { AddBotToRoomDialogComponent } from 'components/dialogs/add-bot-to-room/add-bot-to-room.component';
@@ -12,7 +14,8 @@ import { AddBotToRoomDialogComponent } from 'components/dialogs/add-bot-to-room/
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
-  styleUrls: ['./room.component.scss']
+  styleUrls: ['./room.component.scss'],
+  providers: [GameConquestStateService],
 })
 export class RoomComponent implements OnInit, OnDestroy {
 
@@ -25,10 +28,11 @@ export class RoomComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private dialog: MatDialog,
+    private gameConquestMockService: GameConquestMockService,
+    private gameConquestStateService: GameConquestStateService,
     private roomService: RoomService,
     private websocketService: WebsocketService,
   ) { }
-
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -64,7 +68,16 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   connect(): void {
     this.socketKey = this.websocketService.connect(`socket/${this.room.key}`);
-    // TODO add message handlers
+    // TODO add message handler for gamestate, for now simulate a random state
+    // this.websocketService.registerMessageHandler(socketKey, 'gamestate', this.handleGameStateMessage.bind(this));
+    const initialState = this.gameConquestMockService.generateInitial();
+    this.gameConquestStateService.processNewState(initialState);
+    window.setInterval(() => {
+      const current = this.gameConquestStateService.getCurrentGameState();
+      const next = this.gameConquestMockService.generate(current);
+      this.gameConquestStateService.processNewState(next);
+    }, 1000);
+
     this.connected = true;
   }
 

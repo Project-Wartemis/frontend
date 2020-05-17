@@ -55,10 +55,13 @@
   </mat-accordion>
 
   <!-- content -->
-  <div fxFlex fxLayoutAlign="center center" class="roomContent">
-    <button *ngIf="!connected" (click)="connect()" mat-raised-button color="primary" >
-      Connect
-    </button>
+  <div fxFlex class="roomContent">
+    <div *ngIf="!connected" fxFlex fxLayoutAlign="center center">
+      <button (click)="connect()" mat-raised-button color="primary" >
+        Connect
+      </button>
+    </div>
+    <app-game-conquest *ngIf="connected" fxFlex></app-game-conquest>
   </div>
 
 </div>

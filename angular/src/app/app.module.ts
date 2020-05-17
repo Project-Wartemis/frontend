@@ -16,6 +16,7 @@ import { NewRoomDialogComponent } from 'components/dialogs/new-room/new-room.com
 import { RoomComponent } from './components/room/room.component';
 import { AddBotToRoomDialogComponent } from './components/dialogs/add-bot-to-room/add-bot-to-room.component';
 import { SetNameDialogComponent } from './components/dialogs/set-name/set-name.component';
+import { GameConquestComponent } from './components/game/conquest/game-conquest.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { SetNameDialogComponent } from './components/dialogs/set-name/set-name.c
     RoomComponent,
     AddBotToRoomDialogComponent,
     SetNameDialogComponent,
+    GameConquestComponent,
   ],
   imports: [
     // ----- EXTERNAL -----
