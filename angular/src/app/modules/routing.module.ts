@@ -6,7 +6,7 @@ import { RoomComponent } from 'components/room/room.component';
 
 const routes: Routes = [
   { path: '', component: LobbyComponent },
-  { path: 'room/:roomKey', component: RoomComponent },
+  { path: 'room/:roomId', component: RoomComponent },
 ];
 
 @NgModule({

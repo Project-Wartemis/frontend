@@ -45,7 +45,7 @@ export class WebsocketService {
 
     socket.subscribe(this.handleMessage.bind(this, key));
     this.registerMessageHandler(key, 'error',   this.handleErrorMessage.bind(this));
-    this.registerMessageHandler(key, 'connect', this.register.bind(this, key));
+    this.registerMessageHandler(key, 'connected', this.register.bind(this, key));
 
     return key;
   }

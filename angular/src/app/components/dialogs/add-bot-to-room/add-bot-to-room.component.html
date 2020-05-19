@@ -3,7 +3,7 @@
   <mat-form-field>
     <mat-label>Choose a bot</mat-label>
     <mat-select [(value)]="selectedBot">
-      <mat-option matInput *ngFor="let bot of data.bots" [value]="bot">
+      <mat-option matInput *ngFor="let bot of bots" [value]="bot">
         {{bot.name}}
       </mat-option>
     </mat-select>

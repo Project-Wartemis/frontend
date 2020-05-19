@@ -12,9 +12,11 @@ export class AddBotToRoomDialogComponent {
   public selectedBot: Client;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public bots: Array<Client>,
     private dialogRef: MatDialogRef<AddBotToRoomDialogComponent>,
-  ) { }
+  ) {
+    this.selectedBot = bots[0];
+  }
 
   close(selectedBot?: Client): void {
     this.dialogRef.close(selectedBot);

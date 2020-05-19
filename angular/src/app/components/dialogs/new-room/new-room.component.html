@@ -2,10 +2,18 @@
 <div mat-dialog-content>
   <mat-form-field>
     <mat-label>Name</mat-label>
-    <input matInput [(ngModel)]="room.name" (keyup.enter)="close(room)" minlength="1" maxlength="40">
+    <input matInput [(ngModel)]="name" (keyup.enter)="close(name, engine)" minlength="1" maxlength="40">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Choose a game</mat-label>
+    <mat-select [(value)]="engine">
+      <mat-option matInput *ngFor="let engine of engines" [value]="engine">
+        {{engine.name}}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
 </div>
 <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-evenly">
   <button mat-button (click)="close()">Cancel</button>
-  <button mat-button (click)="close(room)">Ok</button>
+  <button mat-button (click)="close(name, engine)">Ok</button>
 </div>

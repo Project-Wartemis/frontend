@@ -1,11 +1,11 @@
 export interface Client {
+  id: number;
   name: string;
-  key: string;
 }
 
 export interface Room {
+  id: number;
   name: string;
-  key: string;
   clients: {
     [key: string]: Client[];
   };

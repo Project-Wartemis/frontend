@@ -34,11 +34,12 @@ export class LobbyComponent implements OnInit, OnDestroy {
 
   openDialogNewRoom(): void {
     const dialogRef = this.dialog.open(NewRoomDialogComponent, {
-      width: '250px'
+      width: '250px',
+      data: this.lobby.clients.engine,
     });
-    dialogRef.afterClosed().subscribe(room => {
-      if(room) {
-        this.roomService.newRoom(room);
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.roomService.newRoom(result.name, result.engine);
       }
     });
   }

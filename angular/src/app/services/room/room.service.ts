@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { timer, BehaviorSubject, EMPTY } from 'rxjs';
-import { catchError, concatMap , map } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 import { Client, Lobby, Room } from 'interfaces/base';
+import { InviteMessage, LobbyMessage, RoomMessage } from 'interfaces/message';
 import { HttpService } from 'services/http/http.service';
 import { SnackbarService } from 'services/snackbar/snackbar.service';
 import { WebsocketService } from 'services/websocket/websocket.service';
@@ -14,6 +14,7 @@ import { WebsocketService } from 'services/websocket/websocket.service';
 export class RoomService {
 
   public lobby$: BehaviorSubject<Lobby>;
+  private lobbySocketKey: string;
 
   constructor(
     private http: HttpService,
@@ -21,43 +22,35 @@ export class RoomService {
     private websocketService: WebsocketService,
   ) {
     this.lobby$ = new BehaviorSubject<Lobby>(null);
-    timer(0, 1000).pipe(
-      concatMap (() =>
-        this.http.get<Lobby>('lobby')
-      )
-    ).subscribe(this.lobby$);
-
-    this.websocketService.connect('socket');
-    // TODO add message handlers
+    this.lobbySocketKey = this.websocketService.connect('socket');
+    websocketService.registerMessageHandler(this.lobbySocketKey, 'invite', this.handleInviteMessage.bind(this));
+    websocketService.registerMessageHandler(this.lobbySocketKey, 'lobby',  this.handleLobbyMessage.bind(this));
   }
 
-  public newRoom(room: Room): void {
-    this.http.post<Room>('room', room)
-      .pipe(
-        map((result: Room) => {
-          this.snackbarService.success(`Created game ${result.name}`);
-          return result;
-        }),
-        catchError((error: Error) => {
-          this.snackbarService.error('Creating the game failed, please try again', error);
-          return EMPTY;
-        })
-      )
-      .subscribe();
+  public newRoom(name: string, engine: Client): void {
+    console.log('doing stuff');
+    this.websocketService.send(this.lobbySocketKey, {
+      type: 'room',
+      name,
+      engine: engine.id
+    } as RoomMessage);
   }
 
-  public addBotToRoom(room: Room, bot: Client): void {
-    this.http.post<Client>(`room/${room.key}/bot`, JSON.stringify(bot.key))
-      .pipe(
-        map((result: Client) => {
-          this.snackbarService.success(`Added ${result.name} to game!`);
-          return result;
-        }),
-        catchError((error: Error) => {
-          this.snackbarService.error('Adding the bot to the game failed, please try again', error);
-          return EMPTY;
-        })
-      )
-      .subscribe();
+  public addClientToRoom(room: Room, client: Client): void {
+    this.websocketService.send(this.lobbySocketKey, {
+      type: 'invite',
+      room: room.id,
+      client: client.id
+    } as InviteMessage);
+  }
+
+  private handleLobbyMessage(key: string, raw: object): void {
+    const message: LobbyMessage = Object.assign({} as LobbyMessage, raw);
+    this.lobby$.next(message.lobby);
+  }
+
+  private handleInviteMessage(key: string, raw: object): void {
+    const message: InviteMessage = Object.assign({} as InviteMessage, raw);
+    alert(`You just got invited to game ${message.room} - TODO show a popup`);
   }
 }

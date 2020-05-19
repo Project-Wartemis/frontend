@@ -36,14 +36,14 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      const roomKey = params.get('roomKey');
+      const roomId = Number(params.get('roomId'));
       this.subscriptions.push(this.roomService.lobby$.subscribe({
         next: lobby => {
           if(!lobby) {
             return;
           }
           this.lobby = lobby;
-          this.room = lobby.rooms.find(r => r.key === roomKey);
+          this.room = lobby.rooms.find(r => r.id === roomId);
         }
       }));
     });
@@ -57,17 +57,17 @@ export class RoomComponent implements OnInit, OnDestroy {
   openDialogAddBot(): void {
     const dialogRef = this.dialog.open(AddBotToRoomDialogComponent, {
       width: '250px',
-      data: {bots: this.lobby.clients.bot},
+      data: this.lobby.clients.bot,
     });
     dialogRef.afterClosed().subscribe(bot => {
       if(bot) {
-        this.roomService.addBotToRoom(this.room, bot);
+        this.roomService.addClientToRoom(this.room, bot);
       }
     });
   }
 
   connect(): void {
-    this.socketKey = this.websocketService.connect(`socket/${this.room.key}`);
+    this.socketKey = this.websocketService.connect(`socket/${this.room.id}`);
     // TODO add message handler for gamestate, for now simulate a random state
     // this.websocketService.registerMessageHandler(socketKey, 'gamestate', this.handleGameStateMessage.bind(this));
     const initialState = this.gameConquestMockService.generateInitial();

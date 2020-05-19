@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { Room } from 'interfaces/base';
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Client } from 'interfaces/base';
 
 @Component({
   selector: 'app-room-dialog',
@@ -9,15 +9,23 @@ import { Room } from 'interfaces/base';
 })
 export class NewRoomDialogComponent {
 
-  room: Room;
+  public name: string;
+  public engine: Client;
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public engines: Array<Client>,
     private dialogRef: MatDialogRef<NewRoomDialogComponent>,
   ) {
-    this.room = {} as Room;
+    if(this.engines?.length) {
+      this.engine = this.engines[0];
+    }
   }
 
-  close(room?: Room): void {
-    this.dialogRef.close(room);
+  close(name?: string, engine?: Client): void {
+    if(!name || !engine) {
+      this.dialogRef.close();
+    } else {
+      this.dialogRef.close({name, engine});
+    }
   }
 }
