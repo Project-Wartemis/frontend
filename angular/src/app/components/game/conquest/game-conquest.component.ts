@@ -17,6 +17,7 @@ export class GameConquestComponent implements AfterViewInit {
   private graph: any;
   private animationStarted = false;
   private animationStopped = false;
+  private state: GameStateInternal;
 
   constructor(
     private colorService: ColorService,
@@ -47,15 +48,16 @@ export class GameConquestComponent implements AfterViewInit {
     this.stateService.gameState$.subscribe(this.update.bind(this));
   }
 
-  private update(gameState: GameStateInternal): void {
-    if(!gameState) {
+  private update(newState: GameStateInternal): void {
+    if(!newState) {
       return;
     }
     if(this.animationStarted && !this.animationStopped) {
       return;
     }
+    this.state = newState;
     this.animationStarted = true;
-    this.graph.graphData(gameState);
+    this.graph.graphData(newState);
   }
 
   private postAnimationStopped(): void {
@@ -70,7 +72,11 @@ export class GameConquestComponent implements AfterViewInit {
 
   private drawNode(node: any, ctx: CanvasRenderingContext2D): void {
     // circle
-    ctx.fillStyle = this.colorService.getColor(node.owner + 1);
+    let color = this.state.players.findIndex(p => p.id === node.owner) + 1;
+    if(node.owner === -1) {
+      color = 0;
+    }
+    ctx.fillStyle = this.colorService.getColor(color);
     ctx.beginPath();
     ctx.arc(node.x, node.y, 5, 0, 2 * Math.PI, false);
     ctx.fill();

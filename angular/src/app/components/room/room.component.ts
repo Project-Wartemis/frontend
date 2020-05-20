@@ -5,7 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { Lobby, Room } from 'interfaces/base';
-import { GameConquestMockService } from 'services/game/conquest/game-conquest-mock.service';
+import { Message, StateMessage } from 'interfaces/message';
+import { GameState } from 'interfaces/game/conquest';
 import { GameConquestStateService } from 'services/game/conquest/game-conquest-state.service';
 import { RoomService } from 'services/room/room.service';
 import { WebsocketService } from 'services/websocket/websocket.service';
@@ -23,12 +24,12 @@ export class RoomComponent implements OnInit, OnDestroy {
   room: Room;
   subscriptions: Subscription[] = [];
   connected: boolean;
+  started: boolean;
   socketKey: string;
 
   constructor(
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private gameConquestMockService: GameConquestMockService,
     private gameConquestStateService: GameConquestStateService,
     private roomService: RoomService,
     private websocketService: WebsocketService,
@@ -44,6 +45,9 @@ export class RoomComponent implements OnInit, OnDestroy {
           }
           this.lobby = lobby;
           this.room = lobby.rooms.find(r => r.id === roomId);
+          if(!this.connected) {
+            this.connect();
+          }
         }
       }));
     });
@@ -68,16 +72,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   connect(): void {
     this.socketKey = this.websocketService.connect(`socket/${this.room.id}`);
-    // TODO add message handler for gamestate, for now simulate a random state
-    // this.websocketService.registerMessageHandler(socketKey, 'gamestate', this.handleGameStateMessage.bind(this));
-    const initialState = this.gameConquestMockService.generateInitial();
-    this.gameConquestStateService.processNewState(initialState);
-    window.setInterval(() => {
-      const current = this.gameConquestStateService.getCurrentGameState();
-      const next = this.gameConquestMockService.generate(current);
-      this.gameConquestStateService.processNewState(next);
-    }, 1000);
-
+    this.websocketService.registerMessageHandler(this.socketKey, 'state', this.handleStateMessage.bind(this));
     this.connected = true;
   }
 
@@ -87,5 +82,20 @@ export class RoomComponent implements OnInit, OnDestroy {
     }
     this.websocketService.disconnect(this.socketKey);
     this.connected = false;
+  }
+
+  start(): void {
+    this.websocketService.send(this.socketKey, {
+      type: 'start'
+    } as Message);
+  }
+
+  handleStateMessage(key: string, raw: object): void {
+    this.started = true;
+    const message: StateMessage = Object.assign({} as StateMessage, raw);
+    // TODO change - for now it is assumed we only have the conquest game type
+    const state: GameState = Object.assign({} as GameState, message.state);
+    console.log(state);
+    this.gameConquestStateService.processNewState(state);
   }
 }

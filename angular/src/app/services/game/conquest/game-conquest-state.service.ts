@@ -16,10 +16,17 @@ export class GameConquestStateService {
   public processNewState(gameState: GameState): void {
     const result = this.getCurrentGameState();
 
-    result.players = gameState.players;
+    if(!result.players.length) {
+      result.players = gameState.players;
+    }
 
     if(!result.nodes.length) {
       result.nodes = this.getNodes(gameState.nodes);
+    }
+    for(const node of gameState.nodes) {
+      const resultNode = result.nodes.find(n => n.id === node.id);
+      resultNode.owner = node.owner;
+      resultNode.power = node.power;
     }
 
     if(!result.links.length) {
@@ -28,11 +35,11 @@ export class GameConquestStateService {
       result.links = result.links.filter(l => !l.isMove);
     }
 
-    if(!result.nodes[0].links.length) {
-      this.generateNodeLinks(result.nodes, result.links);
-    }
-
     result.events = gameState.events;
+
+    if(!result.nodes[0].links.length) {
+      this.generateNodeLinks(result); // should only run once
+    }
 
     result.links = result.links.concat(this.getLinksFromMoves(result.events.moves));
 
@@ -73,17 +80,10 @@ export class GameConquestStateService {
     } as LinkInternal));
   }
 
-  private generateNodeLinks(nodes: Array<NodeInternal>, links: Array<LinkInternal>): void {
-    for(const link of links) {
-      const source = nodes.find(n => n.id === link.source);
-      const target = nodes.find(n => n.id === link.target);
-      if(!source || !target) {
-        console.log('nodes', nodes);
-        console.log('links', links);
-        console.log('link', link);
-        console.log('source', source);
-        console.log('target', target);
-      }
+  private generateNodeLinks(state: GameStateInternal): void {
+    for(const link of state.links) {
+      const source = state.nodes.find(n => n.id === link.source);
+      const target = state.nodes.find(n => n.id === link.target);
       source.links.push(target);
       target.links.push(source);
     }

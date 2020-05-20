@@ -4,8 +4,17 @@ export interface Message {
   type: string;
 }
 
+export interface ActionMessage extends Message {
+  action: object;
+}
+
 export interface ErrorMessage extends Message {
   message: string;
+}
+
+export interface InviteMessage extends Message {
+  room: number;
+  client: number;
 }
 
 export interface LobbyMessage extends Message {
@@ -22,7 +31,6 @@ export interface RoomMessage extends Message {
   engine: number;
 }
 
-export interface InviteMessage extends Message {
-  room: number;
-  client: number;
+export interface StateMessage extends Message {
+  state: object;
 }

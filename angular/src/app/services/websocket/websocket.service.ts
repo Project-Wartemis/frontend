@@ -82,7 +82,6 @@ export class WebsocketService {
       type: 'register',
       clientType: 'viewer',
       name,
-      key: this.sessonService.key,
     } as RegisterMessage);
   }
 
