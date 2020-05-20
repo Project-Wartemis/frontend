@@ -37,6 +37,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
+      this.ngOnDestroy();
       const roomId = Number(params.get('roomId'));
       this.subscriptions.push(this.roomService.lobby$.subscribe({
         next: lobby => {
@@ -53,8 +54,9 @@ export class RoomComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions = [];
     this.disconnect();
   }
 
@@ -65,7 +67,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe(bot => {
       if(bot) {
-        this.roomService.addClientToRoom(this.room, bot);
+        this.roomService.addBotToRoom(this.room, bot);
       }
     });
   }

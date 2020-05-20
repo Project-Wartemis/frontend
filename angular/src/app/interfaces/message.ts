@@ -13,8 +13,9 @@ export interface ErrorMessage extends Message {
 }
 
 export interface InviteMessage extends Message {
-  room: number;
   client: number;
+  room: number;
+  name: string;
 }
 
 export interface LobbyMessage extends Message {

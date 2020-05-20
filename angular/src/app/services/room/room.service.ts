@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Client, Lobby, Room } from 'interfaces/base';
 import { InviteMessage, LobbyMessage, RoomMessage } from 'interfaces/message';
 import { HttpService } from 'services/http/http.service';
-import { SnackbarService } from 'services/snackbar/snackbar.service';
+import { InviteService } from 'services/invite/invite.service';
 import { WebsocketService } from 'services/websocket/websocket.service';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class RoomService {
 
   constructor(
     private http: HttpService,
-    private snackbarService: SnackbarService,
+    private inviteService: InviteService,
     private websocketService: WebsocketService,
   ) {
     this.lobby$ = new BehaviorSubject<Lobby>(null);
@@ -28,7 +28,6 @@ export class RoomService {
   }
 
   public newRoom(name: string, engine: Client): void {
-    console.log('doing stuff');
     this.websocketService.send(this.lobbySocketKey, {
       type: 'room',
       name,
@@ -36,11 +35,11 @@ export class RoomService {
     } as RoomMessage);
   }
 
-  public addClientToRoom(room: Room, client: Client): void {
+  public addBotToRoom(room: Room, bot: Client): void {
     this.websocketService.send(this.lobbySocketKey, {
       type: 'invite',
       room: room.id,
-      client: client.id
+      client: bot.id
     } as InviteMessage);
   }
 
@@ -51,6 +50,9 @@ export class RoomService {
 
   private handleInviteMessage(key: string, raw: object): void {
     const message: InviteMessage = Object.assign({} as InviteMessage, raw);
-    alert(`You just got invited to game ${message.room} - TODO show a popup`);
+    this.inviteService.addInvite({
+      id: message.room,
+      name: message.name
+    } as Room);
   }
 }

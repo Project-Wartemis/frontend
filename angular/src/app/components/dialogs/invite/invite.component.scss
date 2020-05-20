@@ -1,0 +1,17 @@
+::ng-deep {
+  .mat-snack-bar-container {
+    background: transparent !important;
+    box-shadow: none !important;
+    width: 100%;
+    max-width: 500px !important;
+    margin: 0 !important;
+  }
+}
+
+.invite {
+  background-color: white;
+  color: black;
+  padding: 1rem;
+  border-radius: .5rem;
+  margin: 1rem;
+}

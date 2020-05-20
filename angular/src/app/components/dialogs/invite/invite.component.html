@@ -1,0 +1,9 @@
+<mat-card *ngFor="let invite of invites" class="invite">
+  <mat-card-content>
+    You have been invited to {{ invite.room.name }}!
+  </mat-card-content>
+  <mat-card-actions>
+    <button (click)="join(invite)" mat-button>Join</button>
+    <button (click)="close(invite)" mat-button>Close</button>
+  </mat-card-actions>
+</mat-card>
