@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Subscription } from 'rxjs';
 
-import { Lobby, Room } from 'interfaces/base';
+import { Client, Lobby, Room } from 'interfaces/base';
 import { RoomService } from 'services/room/room.service';
 import { NewRoomDialogComponent } from 'components/dialogs/new-room/new-room.component';
 
@@ -24,6 +24,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     started: [],
     finished: [],
   };
+  engines: Client[] = [];
   subscriptions: Subscription[] = [];
 
   constructor(
@@ -45,6 +46,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     this.rooms.open = this.lobby.rooms.filter(room => !room.started);
     this.rooms.started = this.lobby.rooms.filter(room => room.started && !room.stopped);
     this.rooms.finished = this.lobby.rooms.filter(room => room.stopped);
+    this.engines = this.lobby.clients.filter(client => client.type === 'engine');
   }
 
   ngOnDestroy(): void {
@@ -54,7 +56,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
   public openDialogNewRoom(): void {
     const dialogRef = this.dialog.open(NewRoomDialogComponent, {
       width: '250px',
-      data: this.lobby.clients.engine,
+      data: this.engines,
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {

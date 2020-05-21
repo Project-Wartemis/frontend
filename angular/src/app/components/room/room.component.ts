@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
-import { Lobby, Room } from 'interfaces/base';
+import { Client, Lobby, Room } from 'interfaces/base';
 import { Message, StateMessage } from 'interfaces/message';
 import { GameState } from 'interfaces/game/conquest';
 import { GameConquestStateService } from 'services/game/conquest/game-conquest-state.service';
@@ -21,7 +21,11 @@ import { AddBotToRoomDialogComponent } from 'components/dialogs/add-bot-to-room/
 export class RoomComponent implements OnInit, OnDestroy {
 
   lobby: Lobby;
+  lobbyBots: Client[] = [];
   room: Room;
+  viewers: Client[] = [];
+  bots: Client[] = [];
+  engine: Client;
   subscriptions: Subscription[] = [];
   connected: boolean;
   socketKey: string;
@@ -44,7 +48,11 @@ export class RoomComponent implements OnInit, OnDestroy {
             return;
           }
           this.lobby = lobby;
+          this.lobbyBots = this.lobby.clients.filter(client => client.type === 'bot');
           this.room = lobby.rooms.find(r => r.id === roomId);
+          this.viewers = this.room.clients.filter(client => client.type === 'viewer');
+          this.bots = this.room.clients.filter(client => client.type === 'bot');
+          this.engine = this.room.clients.find(client => client.type === 'engine');
           if(!this.connected) {
             this.connect();
           }
@@ -62,7 +70,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   openDialogAddBot(): void {
     const dialogRef = this.dialog.open(AddBotToRoomDialogComponent, {
       width: '250px',
-      data: this.lobby.clients.bot,
+      data: this.lobbyBots,
     });
     dialogRef.afterClosed().subscribe(bot => {
       if(bot) {

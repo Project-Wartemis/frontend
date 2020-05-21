@@ -3,9 +3,9 @@
     <mat-card-title>{{room.name}}</mat-card-title>
     <mat-card-subtitle fxLayout="row" fxLayoutAlign="center center">
       <mat-icon>memory</mat-icon>
-      {{room.clients.bot?.length || 0}}
+      {{botCount}}
       <mat-icon>face</mat-icon>
-      {{room.clients.viewer?.length || 0}}
+      {{viewerCount}}
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-actions fxLayout="row" fxLayoutAlign="center">
