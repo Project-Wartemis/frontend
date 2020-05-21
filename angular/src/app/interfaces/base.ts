@@ -9,6 +9,8 @@ export interface Room {
   clients: {
     [key: string]: Client[];
   };
+  started: boolean;
+  stopped: boolean;
 }
 
 export interface Lobby extends Room {

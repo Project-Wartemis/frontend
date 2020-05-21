@@ -5,25 +5,22 @@
 
   <div fxLayout="column" fxLayoutGap="1rem">
 
-    <h1 class="mat-display-1">Games</h1>
+    <h1 class="mat-display-1">Open Games</h1>
 
     <div fxLayout="row wrap" fxLayoutGap="1rem grid" fxLayoutAlign="center center">
-      <div *ngFor="let room of lobby?.rooms">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>{{room.name}}</mat-card-title>
-            <mat-card-subtitle fxLayout="row" fxLayoutAlign="center center">
-              <mat-icon>memory</mat-icon>
-              {{room.clients.bot?.length || 0}}
-              <mat-icon>face</mat-icon>
-              {{room.clients.viewer?.length || 0}}
-            </mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-actions fxLayout="row" fxLayoutAlign="center">
-            <button [routerLink]="['/room',room.id]" mat-raised-button color="primary">JOIN</button>
-          </mat-card-actions>
-        </mat-card>
-      </div>
+      <app-room-card *ngFor="let room of rooms.open" [room]="room"></app-room-card>
+    </div>
+
+    <h1 class="mat-display-1">Started Games</h1>
+
+    <div fxLayout="row wrap" fxLayoutGap="1rem grid" fxLayoutAlign="center center">
+      <app-room-card *ngFor="let room of rooms.started" [room]="room"></app-room-card>
+    </div>
+
+    <h1 class="mat-display-1">Finished Games</h1>
+
+    <div fxLayout="row wrap" fxLayoutGap="1rem grid" fxLayoutAlign="center center">
+      <app-room-card *ngFor="let room of rooms.finished" [room]="room"></app-room-card>
     </div>
 
   </div>

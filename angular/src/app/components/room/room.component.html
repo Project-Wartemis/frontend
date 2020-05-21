@@ -11,9 +11,13 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-action-list>
-        <mat-list-item *ngIf="connected && !started" (click)="start()">
-          <mat-icon matListIcon>play_circle_filled</mat-icon>
+        <mat-list-item *ngIf="connected && !room?.started" (click)="start()">
+          <mat-icon matListIcon>play_arrow</mat-icon>
           Start
+        </mat-list-item>
+        <mat-list-item *ngIf="connected && room?.started && !room?.stopped" (click)="stop()">
+          <mat-icon matListIcon>stop</mat-icon>
+          Stop
         </mat-list-item>
       </mat-action-list>
       <mat-list>
@@ -32,7 +36,7 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-action-list>
-        <mat-list-item *ngIf="!started" [disabled]="!lobby?.clients?.bot?.length" (click)="openDialogAddBot()">
+        <mat-list-item *ngIf="!room?.started" [disabled]="!lobby?.clients?.bot?.length" (click)="openDialogAddBot()">
           <mat-icon matListIcon>add</mat-icon>
           Add a bot!
         </mat-list-item>
@@ -67,7 +71,7 @@
         Connect
       </button>
     </div>
-    <app-game-conquest *ngIf="started" fxFlex></app-game-conquest>
+    <app-game-conquest *ngIf="room?.started" fxFlex></app-game-conquest>
   </div>
 
 </div>

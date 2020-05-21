@@ -24,7 +24,6 @@ export class RoomComponent implements OnInit, OnDestroy {
   room: Room;
   subscriptions: Subscription[] = [];
   connected: boolean;
-  started: boolean;
   socketKey: string;
 
   constructor(
@@ -92,12 +91,16 @@ export class RoomComponent implements OnInit, OnDestroy {
     } as Message);
   }
 
+  stop(): void {
+    this.websocketService.send(this.socketKey, {
+      type: 'stop'
+    } as Message);
+  }
+
   handleStateMessage(key: string, raw: object): void {
-    this.started = true;
     const message: StateMessage = Object.assign({} as StateMessage, raw);
     // TODO change - for now it is assumed we only have the conquest game type
     const state: GameState = Object.assign({} as GameState, message.state);
-    console.log(state);
     this.gameConquestStateService.processNewState(state);
   }
 }
