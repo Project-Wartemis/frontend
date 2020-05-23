@@ -1,5 +1,5 @@
 import ForceGraph from 'force-graph';
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 import { Client } from 'interfaces/base';
 import { GameStateInternal } from 'interfaces/game/conquest';
@@ -13,6 +13,9 @@ import { GameConquestStateService } from 'services/game/conquest/game-conquest-s
 export class GameConquestComponent implements AfterViewInit {
 
   @Input() bots: Client[];
+  @Input() playing: boolean;
+  @Input() speed: number;
+  @Output() done: EventEmitter<number> = new EventEmitter<number>();
   @ViewChild('display') display: ElementRef;
 
   private graph: any;

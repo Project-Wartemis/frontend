@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { Lobby, Room } from 'interfaces/base';
-import { Message, StateMessage } from 'interfaces/message';
+import { Message, HistoryMessage, StateMessage, } from 'interfaces/message';
 import { GameConquestStateService } from 'services/game/conquest/game-conquest-state.service';
 import { GamePlanetWarsStateService } from 'services/game/planet-wars/game-planet-wars-state.service';
 import { RoomService } from 'services/room/room.service';
@@ -28,6 +28,12 @@ export class RoomComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   connected: boolean;
   socketKey: string;
+  // playback
+  history: StateMessage[] = [];
+  turn = 1;
+  playing = true;
+  speed = 50;
+  shouldStart = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -78,6 +84,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   connect(): void {
     this.socketKey = this.websocketService.connect(`socket/${this.room.id}`);
     this.websocketService.registerMessageHandler(this.socketKey, 'state', this.handleStateMessage.bind(this));
+    this.websocketService.registerMessageHandler(this.socketKey, 'history', this.handleHistoryMessage.bind(this));
     this.connected = true;
   }
 
@@ -89,7 +96,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.connected = false;
   }
 
-  start(): void {
+  startGame(): void {
     this.websocketService.send(this.socketKey, {
       type: 'start'
     } as Message);
@@ -103,9 +110,78 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   handleStateMessage(key: string, raw: object): void {
     const message: StateMessage = Object.assign({} as StateMessage, raw);
+    this.history[message.turn] = message;
+    if(this.shouldStart) {
+      this.broadcastTurn();
+    }
+  }
+
+  handleHistoryMessage(key: string, raw: object): void {
+    const message: HistoryMessage = Object.assign({} as HistoryMessage, raw);
+    for(const m of message.messages) {
+      this.history[m.turn] = m;
+    }
+    if(this.shouldStart) {
+      this.broadcastTurn();
+    }
+  }
+
+  start(): void {
+    this.turn = 1;
+    this.playing = false;
+    this.broadcastTurn();
+  }
+
+  back(): void {
+    this.turn -= 5;
+    if(this.turn < 1) {
+      this.turn = 1;
+    }
+    this.playing = false;
+    this.broadcastTurn();
+  }
+
+  togglePlaying(): void {
+    if(this.turn < this.history.length) {
+      this.playing = !this.playing;
+    }
+    if(this.playing) {
+      this.broadcastTurn();
+    }
+  }
+
+  forward(): void {
+    this.turn += 5;
+    if(this.turn > this.history.length) {
+      this.turn = this.history.length;
+    }
+    this.playing = false;
+    this.broadcastTurn();
+  }
+
+  end(): void {
+    this.turn = this.history.length;
+    this.playing = false;
+    this.broadcastTurn();
+  }
+
+  turnEnd(): void {
+    if(this.turn >= this.history.length) {
+      this.shouldStart = true;
+      return;
+    }
+    if(this.playing) {
+      this.turn++;
+      this.broadcastTurn();
+    }
+  }
+
+  broadcastTurn(): void {
+    this.shouldStart = false;
+    const state = this.history[this.turn - 1].state;
     switch(this.room.engines[0].name) {
-      case 'Conquest': this.gameConquestStateService.processNewState(message.state); break;
-      case 'Planet Wars': this.gamePlanetWarsStateService.processNewState(message.state); break;
+      case 'Conquest':    this.gameConquestStateService  .processNewState(state); break;
+      case 'Planet Wars': this.gamePlanetWarsStateService.processNewState(state); break;
     }
   }
 }

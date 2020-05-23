@@ -12,6 +12,10 @@ export interface ErrorMessage extends Message {
   message: string;
 }
 
+export interface HistoryMessage extends Message {
+  messages: Array<StateMessage>;
+}
+
 export interface InviteMessage extends Message {
   client: number;
   room: number;
@@ -33,5 +37,7 @@ export interface RoomMessage extends Message {
 }
 
 export interface StateMessage extends Message {
+  turn: number;
+  players: Array<number>;
   state: object;
 }

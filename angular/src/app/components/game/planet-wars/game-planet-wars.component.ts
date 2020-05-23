@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 import { Client } from 'interfaces/base';
 import { StateInternal } from 'interfaces/game/planet-wars';
@@ -14,13 +14,32 @@ const RADIUS = 1;
   templateUrl: './game-planet-wars.component.html',
   styleUrls: ['./game-planet-wars.component.scss']
 })
-export class GamePlanetWarsComponent {
+export class GamePlanetWarsComponent implements OnChanges {
 
   @Input() bots: Client[];
+  @Input() speed: number;
+  @Input() playing: boolean;
+  @Output() done: EventEmitter<number> = new EventEmitter<number>();
   @ViewChild('display') display: ElementRef;
 
   private state: StateInternal;
   private renderInitialised = false;
+  private turnDuration = 1000;
+  private turnStarted: number;
+  private renderTimeout;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes.speed && changes.speed.previousValue !== this.speed) {
+      this.turnDuration = (130 - this.speed) * (130 - this.speed) / 16; // between ~50ms and ~1s
+      // check if our current turn would have already finished should we have had this speed
+      if(new Date().getTime() > this.turnStarted + this.turnDuration) {
+        clearTimeout(this.renderTimeout);
+        setTimeout(() => {
+          this.done.emit();
+        });
+      }
+    }
+  }
 
   constructor(
     private stateService: GamePlanetWarsStateService,
@@ -34,6 +53,10 @@ export class GamePlanetWarsComponent {
     }
     this.state = state;
     this.render();
+    this.turnStarted = new Date().getTime();
+    this.renderTimeout = setTimeout(() => {
+      this.done.emit();
+    }, this.turnDuration);
   }
 
   private initialRender(): void {
@@ -110,7 +133,7 @@ export class GamePlanetWarsComponent {
     moves.merge(newMoves)
       .transition()
       .ease(d3.easeLinear)
-      .duration(50)
+      .duration(this.playing ? this.turnDuration : 0)
       .attr('points', d => `${d.x - .1},${d.y} ${d.x - .2},${d.y + .3} ${d.x + .2},${d.y} ${d.x - .2},${d.y - .3}`)
       .attr('transform', d => `rotate(${d.angle} ${d.x} ${d.y})`);
 
