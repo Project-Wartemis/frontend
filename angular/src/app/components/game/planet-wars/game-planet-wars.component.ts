@@ -1,8 +1,8 @@
 import * as d3 from 'd3';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 
+import { Client } from 'interfaces/base';
 import { StateInternal } from 'interfaces/game/planet-wars';
-import { ColorService } from 'services/color/color.service';
 import { GamePlanetWarsStateService } from 'services/game/planet-wars/game-planet-wars-state.service';
 
 // this looks good when the coordinates are within a range of 50
@@ -16,13 +16,13 @@ const RADIUS = 1;
 })
 export class GamePlanetWarsComponent {
 
+  @Input() bots: Client[];
   @ViewChild('display') display: ElementRef;
 
   private state: StateInternal;
   private renderInitialised = false;
 
   constructor(
-    private colorService: ColorService,
     private stateService: GamePlanetWarsStateService,
   ) {
     this.stateService.state$.subscribe(this.update.bind(this));
@@ -118,8 +118,7 @@ export class GamePlanetWarsComponent {
   }
 
   private getColorByPlayerId(id: number): string {
-    const index = this.state.players.indexOf(id);
-    return this.colorService.getColor(index);
+    return this.bots.find(b => b.id === id)?.color || '#000000';
   }
 
 }

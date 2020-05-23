@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
-import { Client, Lobby, Room } from 'interfaces/base';
+import { Lobby, Room } from 'interfaces/base';
 import { Message, StateMessage } from 'interfaces/message';
 import { GameConquestStateService } from 'services/game/conquest/game-conquest-state.service';
 import { GamePlanetWarsStateService } from 'services/game/planet-wars/game-planet-wars-state.service';
@@ -24,11 +24,7 @@ import { AddBotToRoomDialogComponent } from 'components/dialogs/add-bot-to-room/
 export class RoomComponent implements OnInit, OnDestroy {
 
   lobby: Lobby;
-  lobbyBots: Client[] = [];
   room: Room;
-  viewers: Client[] = [];
-  bots: Client[] = [];
-  engine: Client;
   subscriptions: Subscription[] = [];
   connected: boolean;
   socketKey: string;
@@ -52,11 +48,7 @@ export class RoomComponent implements OnInit, OnDestroy {
             return;
           }
           this.lobby = lobby;
-          this.lobbyBots = this.lobby.clients.filter(client => client.type === 'bot');
           this.room = lobby.rooms.find(r => r.id === roomId);
-          this.viewers = this.room.clients.filter(client => client.type === 'viewer');
-          this.bots = this.room.clients.filter(client => client.type === 'bot');
-          this.engine = this.room.clients.find(client => client.type === 'engine');
           if(!this.connected) {
             this.connect();
           }
@@ -74,7 +66,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   openDialogAddBot(): void {
     const dialogRef = this.dialog.open(AddBotToRoomDialogComponent, {
       width: '250px',
-      data: this.lobbyBots,
+      data: this.lobby.bots,
     });
     dialogRef.afterClosed().subscribe(bot => {
       if(bot) {
@@ -111,7 +103,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   handleStateMessage(key: string, raw: object): void {
     const message: StateMessage = Object.assign({} as StateMessage, raw);
-    switch(this.engine.name) {
+    switch(this.room.engines[0].name) {
       case 'Conquest': this.gameConquestStateService.processNewState(message.state); break;
       case 'Planet Wars': this.gamePlanetWarsStateService.processNewState(message.state); break;
     }

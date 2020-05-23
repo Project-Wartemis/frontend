@@ -23,7 +23,7 @@
       <mat-list>
         <mat-list-item>
           <mat-icon matListIcon>label</mat-icon>
-          {{engine?.name}}
+          {{room?.engines[0]?.name}}
         </mat-list-item>
       </mat-list>
     </mat-expansion-panel>
@@ -32,16 +32,16 @@
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Bots ({{bots.length}})
+          Bots ({{room?.bots.length}})
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-action-list>
-        <mat-list-item *ngIf="!room?.started" [disabled]="!lobbyBots.length" (click)="openDialogAddBot()">
+        <mat-list-item *ngIf="!room?.started" [disabled]="!lobby?.bots.length" (click)="openDialogAddBot()">
           <mat-icon matListIcon>add</mat-icon>
           Add a bot!
         </mat-list-item>
-        <mat-list-item *ngFor="let bot of bots">
-          <mat-icon matListIcon>memory</mat-icon>
+        <mat-list-item *ngFor="let bot of room?.bots; let i = index">
+          <mat-icon [ngStyle]="{'background-color':bot.color}" matListIcon class="icon-white">memory</mat-icon>
           {{bot.name}}
         </mat-list-item>
       </mat-action-list>
@@ -51,11 +51,11 @@
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Spectators ({{viewers.length || 0}})
+          Spectators ({{room?.viewers.length || 0}})
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-action-list>
-        <mat-list-item *ngFor="let viewer of viewers">
+        <mat-list-item *ngFor="let viewer of room?.viewers">
           <mat-icon matListIcon>face</mat-icon>
           {{viewer.name}}
         </mat-list-item>
@@ -72,10 +72,10 @@
       </button>
     </div>
     <ng-container *ngIf="room?.started">
-      <ng-container [ngSwitch]="engine.name">
-        <app-game-conquest *ngSwitchCase="'Conquest'" fxFlex></app-game-conquest>
-        <app-game-planet-wars *ngSwitchCase="'Planet Wars'" fxFlex></app-game-planet-wars>
-        <div *ngSwitchDefault>No renderer found for {{ engine.name }}... Sorry!</div>
+      <ng-container [ngSwitch]="room?.engines[0]?.name">
+        <app-game-conquest *ngSwitchCase="'Conquest'" [bots]="room.bots" fxFlex></app-game-conquest>
+        <app-game-planet-wars *ngSwitchCase="'Planet Wars'" [bots]="room.bots" fxFlex></app-game-planet-wars>
+        <div *ngSwitchDefault>No renderer found for {{ room?.engines[0]?.name || 'N/A' }}... Sorry!</div>
       </ng-container>
     </ng-container>
   </div>

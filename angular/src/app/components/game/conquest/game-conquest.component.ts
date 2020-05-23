@@ -1,8 +1,8 @@
 import ForceGraph from 'force-graph';
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 
+import { Client } from 'interfaces/base';
 import { GameStateInternal } from 'interfaces/game/conquest';
-import { ColorService } from 'services/color/color.service';
 import { GameConquestStateService } from 'services/game/conquest/game-conquest-state.service';
 
 @Component({
@@ -12,6 +12,7 @@ import { GameConquestStateService } from 'services/game/conquest/game-conquest-s
 })
 export class GameConquestComponent implements AfterViewInit {
 
+  @Input() bots: Client[];
   @ViewChild('display') display: ElementRef;
 
   private graph: any;
@@ -20,7 +21,6 @@ export class GameConquestComponent implements AfterViewInit {
   private state: GameStateInternal;
 
   constructor(
-    private colorService: ColorService,
     private stateService: GameConquestStateService,
   ) { }
 
@@ -72,11 +72,7 @@ export class GameConquestComponent implements AfterViewInit {
 
   private drawNode(node: any, ctx: CanvasRenderingContext2D): void {
     // circle
-    let color = this.state.players.findIndex(p => p.id === node.owner) + 1;
-    if(node.owner === -1) {
-      color = 0;
-    }
-    ctx.fillStyle = this.colorService.getColor(color);
+    ctx.fillStyle = this.getColorByPlayerId(node.owner);
     ctx.beginPath();
     ctx.arc(node.x, node.y, 5, 0, 2 * Math.PI, false);
     ctx.fill();
@@ -86,6 +82,10 @@ export class GameConquestComponent implements AfterViewInit {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(node.power, node.x, node.y);
+  }
+
+  private getColorByPlayerId(id: number): string {
+    return this.bots.find(b => b.id === id)?.color || '#000000';
   }
 
 }
