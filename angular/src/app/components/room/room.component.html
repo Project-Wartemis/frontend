@@ -71,7 +71,13 @@
         Connect
       </button>
     </div>
-    <app-game-conquest *ngIf="room?.started" fxFlex></app-game-conquest>
+    <ng-container *ngIf="room?.started">
+      <ng-container [ngSwitch]="engine.name">
+        <app-game-conquest *ngSwitchCase="'Conquest'" fxFlex></app-game-conquest>
+        <app-game-planet-wars *ngSwitchCase="'Planet Wars'" fxFlex></app-game-planet-wars>
+        <div *ngSwitchDefault>No renderer found for {{ engine.name }}... Sorry!</div>
+      </ng-container>
+    </ng-container>
   </div>
 
 </div>

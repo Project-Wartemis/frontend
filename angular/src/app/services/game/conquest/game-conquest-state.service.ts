@@ -13,7 +13,9 @@ export class GameConquestStateService {
     this.gameState$ = new BehaviorSubject<GameStateInternal>(null);
   }
 
-  public processNewState(gameState: GameState): void {
+  public processNewState(raw: object): void {
+    const gameState: GameState = Object.assign({} as GameState, raw);
+
     const result = this.getCurrentGameState();
 
     if(!result.players.length) {

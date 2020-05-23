@@ -87,9 +87,7 @@ export class WebsocketService {
 
   private createWebSocket(path: string): Socket {
     const socket: Socket = webSocket(this.http.getWsUrl(path));
-    socket.subscribe(data => {
-      console.log('incoming', data);
-    });
+    socket.subscribe();
     return socket;
   }
 

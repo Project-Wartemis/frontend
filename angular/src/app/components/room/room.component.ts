@@ -6,8 +6,8 @@ import { Subscription } from 'rxjs';
 
 import { Client, Lobby, Room } from 'interfaces/base';
 import { Message, StateMessage } from 'interfaces/message';
-import { GameState } from 'interfaces/game/conquest';
 import { GameConquestStateService } from 'services/game/conquest/game-conquest-state.service';
+import { GamePlanetWarsStateService } from 'services/game/planet-wars/game-planet-wars-state.service';
 import { RoomService } from 'services/room/room.service';
 import { WebsocketService } from 'services/websocket/websocket.service';
 import { AddBotToRoomDialogComponent } from 'components/dialogs/add-bot-to-room/add-bot-to-room.component';
@@ -16,7 +16,10 @@ import { AddBotToRoomDialogComponent } from 'components/dialogs/add-bot-to-room/
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss'],
-  providers: [GameConquestStateService],
+  providers: [
+    GameConquestStateService,
+    GamePlanetWarsStateService,
+  ],
 })
 export class RoomComponent implements OnInit, OnDestroy {
 
@@ -34,6 +37,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private gameConquestStateService: GameConquestStateService,
+    private gamePlanetWarsStateService: GamePlanetWarsStateService,
     private roomService: RoomService,
     private websocketService: WebsocketService,
   ) { }
@@ -107,8 +111,9 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   handleStateMessage(key: string, raw: object): void {
     const message: StateMessage = Object.assign({} as StateMessage, raw);
-    // TODO change - for now it is assumed we only have the conquest game type
-    const state: GameState = Object.assign({} as GameState, message.state);
-    this.gameConquestStateService.processNewState(state);
+    switch(this.engine.name) {
+      case 'Conquest': this.gameConquestStateService.processNewState(message.state); break;
+      case 'Planet Wars': this.gamePlanetWarsStateService.processNewState(message.state); break;
+    }
   }
 }

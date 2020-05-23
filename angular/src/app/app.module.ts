@@ -19,6 +19,7 @@ import { SetNameDialogComponent } from './components/dialogs/set-name/set-name.c
 import { GameConquestComponent } from './components/game/conquest/game-conquest.component';
 import { InviteDialogComponent } from './components/dialogs/invite/invite.component';
 import { RoomCardComponent } from './components/room-card/room-card.component';
+import { GamePlanetWarsComponent } from './components/game/planet-wars/game-planet-wars.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { RoomCardComponent } from './components/room-card/room-card.component';
     GameConquestComponent,
     InviteDialogComponent,
     RoomCardComponent,
+    GamePlanetWarsComponent,
   ],
   imports: [
     // ----- EXTERNAL -----
