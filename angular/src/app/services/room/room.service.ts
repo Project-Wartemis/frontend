@@ -57,9 +57,11 @@ export class RoomService {
   private enhanceRoom(room: Room, assignColors: boolean = true): void {
     room.bots = room.clients.filter(client => client.type === 'bot');
     room.engines = room.clients.filter(client => client.type === 'engine');
+    room.players = room.clients.filter(client => client.type === 'player');
     room.viewers = room.clients.filter(client => client.type === 'viewer');
     if(assignColors) {
       room.bots.forEach((b, i) => b.color = this.colorService.getColor(i));
+      room.players.forEach((b, i) => b.color = this.colorService.getColor(i));
     }
   }
 

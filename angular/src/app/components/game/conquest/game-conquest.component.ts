@@ -12,7 +12,7 @@ import { GameConquestStateService } from 'services/game/conquest/game-conquest-s
 })
 export class GameConquestComponent implements AfterViewInit {
 
-  @Input() bots: Client[];
+  @Input() players: Client[] = [];
   @Input() playing: boolean;
   @Input() speed: number;
   @Output() done: EventEmitter<number> = new EventEmitter<number>();
@@ -88,7 +88,7 @@ export class GameConquestComponent implements AfterViewInit {
   }
 
   private getColorByPlayerId(id: number): string {
-    return this.bots.find(b => b.id === id)?.color || '#000000';
+    return this.players.find(b => b.id === id)?.color || '#000000';
   }
 
 }

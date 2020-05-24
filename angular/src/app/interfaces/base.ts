@@ -11,6 +11,7 @@ export interface Room {
   clients: Client[];
   bots?: Client[];
   engines?: Client[];
+  players?: Client[];
   viewers?: Client[];
   started: boolean;
   stopped: boolean;

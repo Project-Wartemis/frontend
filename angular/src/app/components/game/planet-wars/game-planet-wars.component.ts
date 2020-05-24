@@ -16,7 +16,7 @@ const RADIUS = 1;
 })
 export class GamePlanetWarsComponent implements OnChanges {
 
-  @Input() bots: Client[];
+  @Input() players: Client[] = [];
   @Input() speed: number;
   @Input() playing: boolean;
   @Output() done: EventEmitter<number> = new EventEmitter<number>();
@@ -141,7 +141,7 @@ export class GamePlanetWarsComponent implements OnChanges {
   }
 
   private getColorByPlayerId(id: number): string {
-    return this.bots.find(b => b.id === id)?.color || '#000000';
+    return this.players.find(b => b.id === id)?.color || '#000000';
   }
 
 }

@@ -32,7 +32,7 @@
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Bots ({{room?.bots.length}})
+          Bots ({{room?.players.length || room?.bots.length}})
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-action-list>
@@ -40,10 +40,18 @@
           <mat-icon matListIcon>add</mat-icon>
           Add a bot!
         </mat-list-item>
-        <mat-list-item *ngFor="let bot of room?.bots; let i = index">
-          <mat-icon [ngStyle]="{'background-color':bot.color}" matListIcon class="icon-white">memory</mat-icon>
-          {{bot.name}}
-        </mat-list-item>
+        <ng-container *ngIf="!room?.players.length">
+          <mat-list-item *ngFor="let bot of room?.bots; let i = index">
+            <mat-icon [ngStyle]="{'background-color':bot.color}" matListIcon class="icon-white">memory</mat-icon>
+            {{bot.name}}
+          </mat-list-item>
+        </ng-container>
+        <ng-container *ngIf="room?.players.length">
+          <mat-list-item *ngFor="let player of room?.players; let i = index">
+            <mat-icon [ngStyle]="{'background-color':player.color}" matListIcon class="icon-white">memory</mat-icon>
+            {{player.name}}
+          </mat-list-item>
+        </ng-container>
       </mat-action-list>
     </mat-expansion-panel>
 
@@ -74,8 +82,8 @@
     <ng-container *ngIf="room?.started">
       <div fxFlex fxLayout="column" class="roomContent">
         <ng-container [ngSwitch]="room?.engines[0]?.name">
-          <app-game-conquest    *ngSwitchCase="'Conquest'"    [bots]="room.bots" [playing]="playing" [speed]="speed" (done)="turnEnd()" fxFlex></app-game-conquest>
-          <app-game-planet-wars *ngSwitchCase="'Planet Wars'" [bots]="room.bots" [playing]="playing" [speed]="speed" (done)="turnEnd()" fxFlex></app-game-planet-wars>
+          <app-game-conquest    *ngSwitchCase="'Conquest'"    [players]="room.players" [playing]="playing" [speed]="speed" (done)="turnEnd()" fxFlex></app-game-conquest>
+          <app-game-planet-wars *ngSwitchCase="'Planet Wars'" [players]="room.players" [playing]="playing" [speed]="speed" (done)="turnEnd()" fxFlex></app-game-planet-wars>
           <div *ngSwitchDefault>No renderer found for {{ room?.engines[0]?.name || 'N/A' }}... Sorry!</div>
         </ng-container>
         <mat-toolbar fxLayout="row" fxLayoutGap=".5rem" color="primary">
