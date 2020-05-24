@@ -102,12 +102,6 @@ export class RoomComponent implements OnInit, OnDestroy {
     } as Message);
   }
 
-  stop(): void {
-    this.websocketService.send(this.socketKey, {
-      type: 'stop'
-    } as Message);
-  }
-
   handleStateMessage(key: string, raw: object): void {
     const message: StateMessage = Object.assign({} as StateMessage, raw);
     this.history[message.turn] = message;

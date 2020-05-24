@@ -15,10 +15,6 @@
           <mat-icon matListIcon>play_arrow</mat-icon>
           Start
         </mat-list-item>
-        <mat-list-item *ngIf="connected && room?.started && !room?.stopped" (click)="stop()">
-          <mat-icon matListIcon>stop</mat-icon>
-          Stop
-        </mat-list-item>
       </mat-action-list>
       <mat-list>
         <mat-list-item>
