@@ -55,7 +55,7 @@ export class RoomComponent implements OnInit, OnDestroy {
           }
           this.lobby = lobby;
           this.room = lobby.rooms.find(r => r.id === roomId);
-          if(!this.connected) {
+          if(this.room && !this.connected) {
             this.connect();
           }
         }

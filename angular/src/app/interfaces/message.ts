@@ -8,6 +8,10 @@ export interface ActionMessage extends Message {
   action: object;
 }
 
+export interface CreatedMessage extends Message {
+  room: number;
+}
+
 export interface ErrorMessage extends Message {
   message: string;
 }
