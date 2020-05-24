@@ -28,6 +28,12 @@ export class GamePlanetWarsComponent implements OnChanges {
   private turnStarted: number;
   private renderTimeout;
 
+  constructor(
+    private stateService: GamePlanetWarsStateService,
+  ) {
+    this.stateService.state$.subscribe(this.update.bind(this));
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if(changes.speed && changes.speed.previousValue !== this.speed) {
       this.turnDuration = (130 - this.speed) * (130 - this.speed) / 16; // between ~50ms and ~1s
@@ -41,22 +47,17 @@ export class GamePlanetWarsComponent implements OnChanges {
     }
   }
 
-  constructor(
-    private stateService: GamePlanetWarsStateService,
-  ) {
-    this.stateService.state$.subscribe(this.update.bind(this));
-  }
-
   private update(state: StateInternal): void {
     if(!state) {
       return;
     }
     this.state = state;
-    this.render();
-    this.turnStarted = new Date().getTime();
-    this.renderTimeout = setTimeout(() => {
-      this.done.emit();
-    }, this.turnDuration);
+    this.render(() => {
+      this.turnStarted = new Date().getTime();
+      this.renderTimeout = setTimeout(() => {
+        this.done.emit();
+      }, this.turnDuration);
+    });
   }
 
   private initialRender(): void {
@@ -91,9 +92,11 @@ export class GamePlanetWarsComponent implements OnChanges {
     this.renderInitialised = true;
   }
 
-  private render(): void {
+  private render(callback: () => void): void {
     if(!this.renderInitialised) {
       this.initialRender();
+      setTimeout(this.render.bind(this, callback), 200);
+      return;
     }
     const element = this.display.nativeElement;
 
@@ -138,6 +141,8 @@ export class GamePlanetWarsComponent implements OnChanges {
       .attr('transform', d => `rotate(${d.angle} ${d.x} ${d.y})`);
 
     moves.exit().remove();
+
+    callback();
   }
 
   private getColorByPlayerId(id: number): string {
