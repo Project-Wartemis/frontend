@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
-import { Lobby, Room } from 'interfaces/base';
+import { Client, Lobby, Room } from 'interfaces/base';
 import { Message, HistoryMessage, StateMessage, } from 'interfaces/message';
 import { GameConquestStateService } from 'services/game/conquest/game-conquest-state.service';
 import { GamePlanetWarsStateService } from 'services/game/planet-wars/game-planet-wars-state.service';
@@ -25,6 +25,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   lobby: Lobby;
   room: Room;
+  validBots: Client[] = [];
   subscriptions: Subscription[] = [];
   connected: boolean;
   socketKey: string;
@@ -55,6 +56,9 @@ export class RoomComponent implements OnInit, OnDestroy {
           }
           this.lobby = lobby;
           this.room = lobby.rooms.find(r => r.id === roomId);
+          if(this.room?.engines.length) {
+            this.validBots = lobby.bots.filter(b => b.game === this.room.engines[0].name);
+          }
           if(this.room && !this.connected) {
             this.connect();
           }
@@ -72,7 +76,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   openDialogAddBot(): void {
     const dialogRef = this.dialog.open(AddBotToRoomDialogComponent, {
       width: '250px',
-      data: this.lobby.bots,
+      data: this.validBots,
     });
     dialogRef.afterClosed().subscribe(bot => {
       if(bot) {

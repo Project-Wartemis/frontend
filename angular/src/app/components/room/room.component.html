@@ -32,7 +32,7 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-action-list>
-        <mat-list-item *ngIf="!room?.started" [disabled]="!lobby?.bots.length" (click)="openDialogAddBot()">
+        <mat-list-item *ngIf="!room?.started" [disabled]="!validBots.length" (click)="openDialogAddBot()">
           <mat-icon matListIcon>add</mat-icon>
           Add a bot!
         </mat-list-item>

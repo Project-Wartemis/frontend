@@ -2,6 +2,7 @@ export interface Client {
   id: number;
   type: string;
   name: string;
+  game?: string;
   color?: string;
 }
 
