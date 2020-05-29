@@ -3,21 +3,30 @@ export interface Client {
   type: string;
   name: string;
   game?: string;
-  color?: string;
 }
 
 export interface Room {
-  id: number;
   name: string;
-  clients: Client[];
-  bots?: Client[];
-  engines?: Client[];
-  players?: Client[];
-  viewers?: Client[];
+  clients: Array<Client>;
+  bots: Array<Client>;
+  engines: Array<Client>;
+  viewers: Array<Client>;
+}
+
+export interface Player {
+  id: number;
+  client: Client;
+  color?: string;
+}
+
+export interface Game extends Room {
+  id: number;
+  engine: Client;
+  players: Array<Player>;
   started: boolean;
   stopped: boolean;
 }
 
 export interface Lobby extends Room {
-  rooms: Room[];
+  games: Array<Game>;
 }

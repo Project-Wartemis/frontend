@@ -26,8 +26,8 @@ export class HttpService {
     return this.getHttpRoot() + path;
   }
 
-  getWsUrl(path: string): string {
-    return this.getWsRoot() + path;
+  getWsUrl(): string {
+    return this.getWsRoot() + 'socket';
   }
 
   get<T>(path: string): Observable<T> {

@@ -5,15 +5,21 @@ export interface Message {
 }
 
 export interface ActionMessage extends Message {
+  game: number;
   action: object;
 }
 
 export interface CreatedMessage extends Message {
-  room: number;
+  game: number;
 }
 
 export interface ErrorMessage extends Message {
   message: string;
+}
+
+export interface GameMessage extends Message {
+  name: string;
+  engine: number;
 }
 
 export interface HistoryMessage extends Message {
@@ -21,9 +27,16 @@ export interface HistoryMessage extends Message {
 }
 
 export interface InviteMessage extends Message {
-  client: number;
-  room: number;
-  name: string;
+  game: number;
+  bot: number;
+}
+
+export interface JoinMessage extends Message {
+  game: number;
+}
+
+export interface LeaveMessage extends Message {
+  game: number;
 }
 
 export interface LobbyMessage extends Message {
@@ -35,12 +48,12 @@ export interface RegisterMessage extends Message {
   name: string;
 }
 
-export interface RoomMessage extends Message {
-  name: string;
-  engine: number;
+export interface StartMessage extends Message {
+  game: number;
 }
 
 export interface StateMessage extends Message {
+  game: number;
   turn: number;
   players: Array<number>;
   state: object;

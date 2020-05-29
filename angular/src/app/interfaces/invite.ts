@@ -1,6 +1,6 @@
-import { Room } from './base';
+import { Game } from './base';
 
 export interface Invite {
-  room: Room;
+  game: Game;
   dismissed: boolean;
 }

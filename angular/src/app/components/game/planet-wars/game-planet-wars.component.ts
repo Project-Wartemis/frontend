@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 
-import { Client } from 'interfaces/base';
+import { Player } from 'interfaces/base';
 import { StateInternal } from 'interfaces/game/planet-wars';
 import { GamePlanetWarsStateService } from 'services/game/planet-wars/game-planet-wars-state.service';
 
@@ -16,7 +16,7 @@ const RADIUS = 1;
 })
 export class GamePlanetWarsComponent implements OnChanges {
 
-  @Input() players: Client[] = [];
+  @Input() players: Player[] = [];
   @Input() speed: number;
   @Input() playing: boolean;
   @Output() done: EventEmitter<number> = new EventEmitter<number>();

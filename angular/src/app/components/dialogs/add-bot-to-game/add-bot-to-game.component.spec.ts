@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RoomCardComponent } from './room-card.component';
+import { AddBotToGameDialogComponent } from './add-bot-to-game.component';
 
-describe('RoomCardComponent', () => {
-  let component: RoomCardComponent;
-  let fixture: ComponentFixture<RoomCardComponent>;
+describe('AddBotToGameDialogComponent', () => {
+  let component: AddBotToGameDialogComponent;
+  let fixture: ComponentFixture<AddBotToGameDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RoomCardComponent ]
+      declarations: [ AddBotToGameDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RoomCardComponent);
+    fixture = TestBed.createComponent(AddBotToGameDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

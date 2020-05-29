@@ -1,0 +1,95 @@
+<div fxFlexFill fxLayout="row">
+
+  <!-- left menu -->
+  <mat-accordion fxFlex="20rem" multi="true" class="gameNavLeft">
+
+    <!-- game -->
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Game
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-action-list>
+        <mat-list-item *ngIf="!game?.started" (click)="startGame()">
+          <mat-icon matListIcon>play_arrow</mat-icon>
+          Start
+        </mat-list-item>
+      </mat-action-list>
+      <mat-list>
+        <mat-list-item>
+          <mat-icon matListIcon>label</mat-icon>
+          {{game?.engine?.name}}
+        </mat-list-item>
+      </mat-list>
+    </mat-expansion-panel>
+
+    <!-- bots -->
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Bots ({{game?.bots.length}})
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-action-list>
+        <mat-list-item *ngIf="!game?.started" [disabled]="!validBots.length" (click)="openDialogAddBot()">
+          <mat-icon matListIcon>add</mat-icon>
+          Add a bot!
+        </mat-list-item>
+        <mat-list-item *ngFor="let player of game?.players; let i = index">
+          <mat-icon [ngStyle]="{'background-color':player.color}" matListIcon class="icon-white">memory</mat-icon>
+          {{player.client.name}}
+        </mat-list-item>
+      </mat-action-list>
+    </mat-expansion-panel>
+
+    <!-- spectators -->
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Spectators ({{game?.viewers.length || 0}})
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-action-list>
+        <mat-list-item *ngFor="let viewer of game?.viewers">
+          <mat-icon matListIcon>face</mat-icon>
+          {{viewer.name}}
+        </mat-list-item>
+      </mat-action-list>
+    </mat-expansion-panel>
+
+  </mat-accordion>
+
+  <!-- content -->
+  <div fxFlex fxLayout="column" class="gameContent">
+    <ng-container [ngSwitch]="game?.engine.name">
+      <app-game-conquest    *ngSwitchCase="'Conquest'"    [players]="game.players" [playing]="playing" [speed]="speed" (done)="turnEnd()" fxFlex></app-game-conquest>
+      <app-game-planet-wars *ngSwitchCase="'Planet Wars'" [players]="game.players" [playing]="playing" [speed]="speed" (done)="turnEnd()" fxFlex></app-game-planet-wars>
+      <div *ngSwitchDefault>No renderer found for {{ game?.engine?.name || 'N/A' }}... Sorry!</div>
+    </ng-container>
+    <mat-toolbar fxLayout="row" fxLayoutGap=".5rem" color="primary">
+      <mat-slider [(ngModel)]="speed"></mat-slider>
+      <button (click)="start()" mat-icon-button>
+        <mat-icon>skip_previous</mat-icon>
+      </button>
+      <button (click)="back()" mat-icon-button>
+        <mat-icon>fast_rewind</mat-icon>
+      </button>
+      <button (click)="togglePlaying()" mat-icon-button>
+        <mat-icon *ngIf="!playing">play_arrow</mat-icon>
+        <mat-icon *ngIf="playing">pause</mat-icon>
+      </button>
+      <button (click)="forward()" mat-icon-button>
+        <mat-icon>fast_forward</mat-icon>
+      </button>
+      <button (click)="end()" mat-icon-button>
+        <mat-icon>skip_next</mat-icon>
+      </button>
+      <mat-slider [(ngModel)]="turn" [max]="history.length" min="1" step="1" thumbLabel fxFlex></mat-slider>
+      <div>
+        {{ turn }} / {{ history.length }}
+      </div>
+    </mat-toolbar>
+  </div>
+
+</div>

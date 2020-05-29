@@ -4,33 +4,33 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
-import { Client, Lobby, Room } from 'interfaces/base';
-import { Message, HistoryMessage, StateMessage, } from 'interfaces/message';
+import { Client, Game, Lobby } from 'interfaces/base';
+import { Message, HistoryMessage, JoinMessage, LeaveMessage, StateMessage } from 'interfaces/message';
 import { GameConquestStateService } from 'services/game/conquest/game-conquest-state.service';
 import { GamePlanetWarsStateService } from 'services/game/planet-wars/game-planet-wars-state.service';
-import { RoomService } from 'services/room/room.service';
+import { LobbyService } from 'services/lobby/lobby.service';
 import { WebsocketService } from 'services/websocket/websocket.service';
-import { AddBotToRoomDialogComponent } from 'components/dialogs/add-bot-to-room/add-bot-to-room.component';
+import { AddBotToGameDialogComponent } from 'components/dialogs/add-bot-to-game/add-bot-to-game.component';
 
 @Component({
-  selector: 'app-room',
-  templateUrl: './room.component.html',
-  styleUrls: ['./room.component.scss'],
+  selector: 'app-game',
+  templateUrl: './game.component.html',
+  styleUrls: ['./game.component.scss'],
   providers: [
     GameConquestStateService,
     GamePlanetWarsStateService,
   ],
 })
-export class RoomComponent implements OnInit, OnDestroy {
+export class GameComponent implements OnInit, OnDestroy {
 
+  private gameId: number;
   lobby: Lobby;
-  room: Room;
-  validBots: Client[] = [];
-  subscriptions: Subscription[] = [];
-  connected: boolean;
-  socketKey: string;
+  game: Game;
+  validBots: Array<Client> = [];
+  subscriptions: Array<Subscription> = [];
+  messageHandlers: Array<string> = [];
   // playback
-  history: StateMessage[] = [];
+  history: Array<StateMessage> = [];
   turn = 1;
   playing = true;
   speed = 50;
@@ -41,88 +41,98 @@ export class RoomComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private gameConquestStateService: GameConquestStateService,
     private gamePlanetWarsStateService: GamePlanetWarsStateService,
-    private roomService: RoomService,
+    private lobbyService: LobbyService,
     private websocketService: WebsocketService,
   ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.ngOnDestroy();
-      const roomId = Number(params.get('roomId'));
-      this.subscriptions.push(this.roomService.lobby$.subscribe({
-        next: lobby => {
-          if(!lobby) {
-            return;
-          }
-          this.lobby = lobby;
-          this.room = lobby.rooms.find(r => r.id === roomId);
-          if(this.room?.engines.length) {
-            this.validBots = lobby.bots.filter(b => b.game === this.room.engines[0].name);
-          }
-          if(this.room && !this.connected) {
-            this.connect();
-          }
-        }
+      this.gameId = Number(params.get('gameId'));
+      this.websocketService.send({
+        type: 'join',
+        game: this.gameId
+      } as JoinMessage);
+      this.subscriptions.push(this.lobbyService.lobby$.subscribe({
+        next: this.updateLobby.bind(this)
       }));
     });
+    this.messageHandlers.push(
+      this.websocketService.registerMessageHandler('state', this.handleStateMessage.bind(this))
+    );
+    this.messageHandlers.push(
+      this.websocketService.registerMessageHandler('history', this.handleHistoryMessage.bind(this))
+    );
   }
 
   ngOnDestroy(): void {
+    if(this.gameId) {
+      this.websocketService.send({
+        type: 'leave',
+        game: this.gameId
+      } as LeaveMessage);
+    }
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
     this.subscriptions = [];
-    this.disconnect();
+    this.messageHandlers.forEach(messageHandler => this.websocketService.deregisterMessageHandler(messageHandler));
+    this.messageHandlers = [];
   }
 
-  openDialogAddBot(): void {
-    const dialogRef = this.dialog.open(AddBotToRoomDialogComponent, {
+  private updateLobby(lobby: Lobby): void {
+    if(!lobby) {
+      return;
+    }
+    this.lobby = lobby;
+    this.game = this.lobby.games.find(g => g.id === this.gameId);
+    if(this.game?.engine) {
+      this.validBots = this.lobby.bots.filter(b => b.game === this.game.engine.name);
+    }
+  }
+
+  public openDialogAddBot(): void {
+    const dialogRef = this.dialog.open(AddBotToGameDialogComponent, {
       width: '250px',
       data: this.validBots,
     });
     dialogRef.afterClosed().subscribe(bot => {
       if(bot) {
-        this.roomService.addBotToRoom(this.room, bot);
+        this.lobbyService.addBotToGame(this.game, bot);
       }
     });
   }
 
-  connect(): void {
-    this.socketKey = this.websocketService.connect(`socket/${this.room.id}`);
-    this.websocketService.registerMessageHandler(this.socketKey, 'state', this.handleStateMessage.bind(this));
-    this.websocketService.registerMessageHandler(this.socketKey, 'history', this.handleHistoryMessage.bind(this));
-    this.connected = true;
-  }
-
-  disconnect(): void {
-    if(!this.connected) {
-      return;
-    }
-    this.websocketService.disconnect(this.socketKey);
-    this.connected = false;
-  }
-
-  startGame(): void {
-    this.websocketService.send(this.socketKey, {
-      type: 'start'
+  public startGame(): void {
+    this.websocketService.send({
+      type: 'start',
+      game: this.gameId
     } as Message);
   }
 
-  handleStateMessage(key: string, raw: object): void {
+  private handleStateMessage(raw: object): void {
     const message: StateMessage = Object.assign({} as StateMessage, raw);
+    if(message.game !== this.gameId) {
+      return;
+    }
     this.history[message.turn] = message;
     if(this.shouldStart) {
       this.broadcastTurn();
     }
   }
 
-  handleHistoryMessage(key: string, raw: object): void {
+  private handleHistoryMessage(raw: object): void {
     const message: HistoryMessage = Object.assign({} as HistoryMessage, raw);
     for(const m of message.messages) {
+      if(m.game !== this.gameId) {
+        continue;
+      }
       this.history[m.turn] = m;
     }
     if(this.shouldStart) {
       this.broadcastTurn();
     }
   }
+
+  // playback
 
   start(): void {
     this.turn = 1;
@@ -177,7 +187,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   broadcastTurn(): void {
     this.shouldStart = false;
     const state = this.history[this.turn - 1].state;
-    switch(this.room.engines[0].name) {
+    switch(this.game.engine.name) {
       case 'Conquest':    this.gameConquestStateService  .processNewState(state); break;
       case 'Planet Wars': this.gamePlanetWarsStateService.processNewState(state); break;
     }

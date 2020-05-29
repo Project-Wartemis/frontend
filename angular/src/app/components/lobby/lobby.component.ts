@@ -3,9 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Subscription } from 'rxjs';
 
-import { Client, Lobby, Room } from 'interfaces/base';
-import { RoomService } from 'services/room/room.service';
-import { NewRoomDialogComponent } from 'components/dialogs/new-room/new-room.component';
+import { Game, Lobby } from 'interfaces/base';
+import { LobbyService } from 'services/lobby/lobby.service';
+import { NewGameDialogComponent } from 'components/dialogs/new-game/new-game.component';
 
 @Component({
   selector: 'app-lobby',
@@ -15,25 +15,24 @@ import { NewRoomDialogComponent } from 'components/dialogs/new-room/new-room.com
 export class LobbyComponent implements OnInit, OnDestroy {
 
   lobby: Lobby;
-  rooms: {
-    open: Room[];
-    started: Room[];
-    finished: Room[];
+  games: {
+    open: Game[];
+    started: Game[];
+    finished: Game[];
   } = {
     open: [],
     started: [],
     finished: [],
   };
-  engines: Client[] = [];
   subscriptions: Subscription[] = [];
 
   constructor(
     private dialog: MatDialog,
-    private roomService: RoomService,
+    private lobbyService: LobbyService,
   ) { }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.roomService.lobby$.subscribe({
+    this.subscriptions.push(this.lobbyService.lobby$.subscribe({
       next: this.updateLobby.bind(this)
     }));
   }
@@ -43,24 +42,23 @@ export class LobbyComponent implements OnInit, OnDestroy {
       return;
     }
     this.lobby = lobby;
-    this.rooms.open = this.lobby.rooms.filter(room => !room.started);
-    this.rooms.started = this.lobby.rooms.filter(room => room.started && !room.stopped);
-    this.rooms.finished = this.lobby.rooms.filter(room => room.stopped);
-    this.engines = this.lobby.clients.filter(client => client.type === 'engine');
+    this.games.open = this.lobby.games.filter(room => !room.started);
+    this.games.started = this.lobby.games.filter(room => room.started && !room.stopped);
+    this.games.finished = this.lobby.games.filter(room => room.stopped);
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  public openDialogNewRoom(): void {
-    const dialogRef = this.dialog.open(NewRoomDialogComponent, {
+  public openDialogNewGame(): void {
+    const dialogRef = this.dialog.open(NewGameDialogComponent, {
       width: '250px',
-      data: this.engines,
+      data: this.lobby.engines,
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.roomService.newRoom(result.name, result.engine);
+        this.lobbyService.newGame(result.name, result.engine);
       }
     });
   }

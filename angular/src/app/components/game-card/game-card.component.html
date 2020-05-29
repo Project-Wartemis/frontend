@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>{{room.name}}</mat-card-title>
+    <mat-card-title>{{game.name}}</mat-card-title>
     <mat-card-subtitle fxLayout="row" fxLayoutAlign="center center">
       <mat-icon>memory</mat-icon>
       {{botCount}}
@@ -9,6 +9,6 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-actions fxLayout="row" fxLayoutAlign="center">
-    <button [routerLink]="['/room',room.id]" mat-raised-button color="primary">JOIN</button>
+    <button [routerLink]="['/game',game.id]" mat-raised-button color="primary">JOIN</button>
   </mat-card-actions>
 </mat-card>

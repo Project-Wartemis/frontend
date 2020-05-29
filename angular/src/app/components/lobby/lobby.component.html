@@ -1,5 +1,5 @@
 <div class="lobbyRoot">
-  <button class="app-button-right-bottom" (click)="openDialogNewRoom()" mat-fab color="primary">
+  <button class="app-button-right-bottom" (click)="openDialogNewGame()" mat-fab color="primary">
     <mat-icon>add</mat-icon>
   </button>
 
@@ -8,19 +8,19 @@
     <h1 class="mat-display-1">Open Games</h1>
 
     <div fxLayout="row wrap" fxLayoutGap="1rem grid" fxLayoutAlign="center center">
-      <app-room-card *ngFor="let room of rooms.open" [room]="room"></app-room-card>
+      <app-game-card *ngFor="let game of games.open" [game]="game"></app-game-card>
     </div>
 
     <h1 class="mat-display-1">Started Games</h1>
 
     <div fxLayout="row wrap" fxLayoutGap="1rem grid" fxLayoutAlign="center center">
-      <app-room-card *ngFor="let room of rooms.started" [room]="room"></app-room-card>
+      <app-game-card *ngFor="let game of games.started" [game]="game"></app-game-card>
     </div>
 
     <h1 class="mat-display-1">Finished Games</h1>
 
     <div fxLayout="row wrap" fxLayoutGap="1rem grid" fxLayoutAlign="center center">
-      <app-room-card *ngFor="let room of rooms.finished" [room]="room"></app-room-card>
+      <app-game-card *ngFor="let game of games.finished" [game]="game"></app-game-card>
     </div>
 
   </div>

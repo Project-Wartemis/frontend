@@ -3,17 +3,17 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Client } from 'interfaces/base';
 
 @Component({
-  selector: 'app-add-bot-to-room',
-  templateUrl: './add-bot-to-room.component.html',
-  styleUrls: ['./add-bot-to-room.component.scss']
+  selector: 'app-add-bot-to-game',
+  templateUrl: './add-bot-to-game.component.html',
+  styleUrls: ['./add-bot-to-game.component.scss']
 })
-export class AddBotToRoomDialogComponent {
+export class AddBotToGameDialogComponent {
 
   public selectedBot: Client;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public bots: Array<Client>,
-    private dialogRef: MatDialogRef<AddBotToRoomDialogComponent>,
+    private dialogRef: MatDialogRef<AddBotToGameDialogComponent>,
   ) {
     this.selectedBot = bots[0];
   }

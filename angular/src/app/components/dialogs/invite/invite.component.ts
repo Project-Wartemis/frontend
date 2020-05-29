@@ -22,7 +22,7 @@ export class InviteDialogComponent implements OnDestroy {
   }
 
   join(invite: Invite): void {
-    this.router.navigate(['/room', invite.room.id]);
+    this.router.navigate(['/game', invite.game.id]);
     this.close(invite);
   }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { Room } from 'interfaces/base';
+import { Game } from 'interfaces/base';
 import { Invite } from 'interfaces/invite';
 import { InviteDialogComponent } from 'components/dialogs/invite/invite.component';
 
@@ -16,9 +16,9 @@ export class InviteService {
     private snackBar: MatSnackBar,
   ) { }
 
-  addInvite(room: Room): void {
+  addInvite(game: Game): void {
     this.invites.push({
-      room,
+      game,
       dismissed: false
     } as Invite);
     this.showInvites();

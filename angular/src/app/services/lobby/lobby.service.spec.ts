@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LobbyService } from './games.service';
+import { LobbyService } from './lobby.service';
 
 describe('LobbyService', () => {
   let service: LobbyService;

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Lobby } from 'interfaces/base';
-import { RoomService } from 'services/room/room.service';
+import { LobbyService } from 'services/lobby/lobby.service';
 import { SessionService } from 'services/session/session.service';
 import { SetNameDialogComponent } from 'components/dialogs/set-name/set-name.component';
 
@@ -18,11 +18,11 @@ export class AppComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     public sessionService: SessionService,
-    private roomService: RoomService,
+    private lobbyService: LobbyService,
   ) { }
 
   ngOnInit(): void {
-    this.roomService.lobby$.subscribe({
+    this.lobbyService.lobby$.subscribe({
       next: lobby => this.lobby = lobby
     });
     if(!this.sessionService.name$.getValue()) {

@@ -1,7 +1,7 @@
 import ForceGraph from 'force-graph';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 
-import { Client } from 'interfaces/base';
+import { Player } from 'interfaces/base';
 import { GameStateInternal } from 'interfaces/game/conquest';
 import { GameConquestStateService } from 'services/game/conquest/game-conquest-state.service';
 
@@ -12,7 +12,7 @@ import { GameConquestStateService } from 'services/game/conquest/game-conquest-s
 })
 export class GameConquestComponent implements OnChanges {
 
-  @Input() players: Client[] = [];
+  @Input() players: Player[] = [];
   @Input() playing: boolean;
   @Input() speed: number;
   @Output() done: EventEmitter<number> = new EventEmitter<number>();

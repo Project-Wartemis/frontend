@@ -4,18 +4,18 @@ import { Client } from 'interfaces/base';
 import { SessionService } from 'services/session/session.service';
 
 @Component({
-  selector: 'app-room-dialog',
-  templateUrl: './new-room.component.html',
-  styleUrls: ['./new-room.component.scss']
+  selector: 'app-game-dialog',
+  templateUrl: './new-game.component.html',
+  styleUrls: ['./new-game.component.scss']
 })
-export class NewRoomDialogComponent {
+export class NewGameDialogComponent {
 
   public name: string;
   public engine: Client;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public engines: Array<Client>,
-    private dialogRef: MatDialogRef<NewRoomDialogComponent>,
+    private dialogRef: MatDialogRef<NewGameDialogComponent>,
     public sessionService: SessionService,
   ) {
     if(this.sessionService.name$.getValue()) {
