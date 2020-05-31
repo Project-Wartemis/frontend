@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Lobby } from 'interfaces/base';
 import { LobbyService } from 'services/lobby/lobby.service';
 import { SessionService } from 'services/session/session.service';
+import { WebsocketService } from 'services/websocket/websocket.service';
 import { SetNameDialogComponent } from 'components/dialogs/set-name/set-name.component';
 
 @Component({
@@ -18,6 +19,7 @@ export class AppComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     public sessionService: SessionService,
+    public websocketService: WebsocketService,
     private lobbyService: LobbyService,
   ) { }
 

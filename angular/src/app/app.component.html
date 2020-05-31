@@ -27,3 +27,7 @@
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+<div *ngIf="(websocketService.registered | async) === (false)" fxLayout fxLayoutAlign="center center" class="appLoadingCover">
+  <mat-spinner></mat-spinner>
+</div>

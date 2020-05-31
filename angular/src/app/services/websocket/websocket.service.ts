@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { webSocket } from 'rxjs/webSocket';
 import { v4 as uuid } from 'uuid';
 
@@ -9,7 +9,6 @@ import { HttpService } from 'services/http/http.service';
 import { SessionService } from 'services/session/session.service';
 import { SnackbarService } from 'services/snackbar/snackbar.service';
 
-type Socket = Subject<object>;
 type MessageHandler = (raw: object) => void;
 type MessageHandlerWrapper = {
   key: string;
@@ -22,9 +21,9 @@ type MessageHandlerWrapper = {
 })
 export class WebsocketService {
 
-  private socket: Socket;
+  private socket: Subject<object>;
   private handlers: Set<MessageHandlerWrapper> = new Set();
-  private registered = false;
+  public registered: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
     private http: HttpService,
@@ -32,16 +31,31 @@ export class WebsocketService {
     private snackbarService: SnackbarService,
   ) {
     this.sessonService.name$.subscribe(name => {
-      if(!name || !this.registered) {
+      if(!name || !this.registered.getValue()) {
         return;
       }
       this.register();
     });
     this.socket = webSocket(this.http.getWsUrl());
-    this.socket.subscribe(this.handleMessage.bind(this));
+    this.connect();
     this.registerMessageHandler('connected',  this.handleConnectedMessage.bind(this));
     this.registerMessageHandler('error',      this.handleErrorMessage.bind(this));
     this.registerMessageHandler('registered', this.handleRegisteredMessage.bind(this));
+  }
+
+  private connect(): void {
+    console.log('Connecting');
+    this.socket.subscribe({
+      next: this.handleMessage.bind(this),
+      error: this.delayedConnect.bind(this),
+      complete: this.delayedConnect.bind(this)
+    });
+  }
+
+  private delayedConnect(): void {
+    this.registered.next(false);
+    console.log('Disconnected... retrying in 5s');
+    setTimeout(this.connect.bind(this), 5000);
   }
 
   public registerMessageHandler(type: string, handler: MessageHandler): string {
@@ -99,6 +113,6 @@ export class WebsocketService {
   }
 
   private handleRegisteredMessage(raw: object): void {
-    this.registered = true;
+    this.registered.next(true);
   }
 }
