@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // ----- MODULES -----
+import { IconModule } from '@visurel/iconify-angular';
 import { MaterialModule } from 'modules/material.module';
 import { RoutingModule } from 'modules/routing.module';
 // ----- COMPONENTS -----
@@ -20,6 +21,13 @@ import { GameConquestComponent } from './components/game/conquest/game-conquest.
 import { InviteDialogComponent } from './components/dialogs/invite/invite.component';
 import { GameCardComponent } from './components/game-card/game-card.component';
 import { GamePlanetWarsComponent } from './components/game/planet-wars/game-planet-wars.component';
+import { DocsIntroComponent } from './components/docs/intro/intro.component';
+import { DocsGameConquestComponent } from './components/docs/game/conquest/conquest.component';
+import { DocsGamePlanetWarsComponent } from './components/docs/game/planet-wars/planet-wars.component';
+import { DocsStartJavascriptComponent } from './components/docs/start/javascript/javascript.component';
+import { DocsStartPythonComponent } from './components/docs/start/python/python.component';
+import { DocsScratchComponent } from './components/docs/scratch/scratch.component';
+import { DocsComponent } from './components/docs/docs.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +41,13 @@ import { GamePlanetWarsComponent } from './components/game/planet-wars/game-plan
     InviteDialogComponent,
     GameCardComponent,
     GamePlanetWarsComponent,
+    DocsIntroComponent,
+    DocsGameConquestComponent,
+    DocsGamePlanetWarsComponent,
+    DocsStartJavascriptComponent,
+    DocsStartPythonComponent,
+    DocsScratchComponent,
+    DocsComponent,
   ],
   imports: [
     // ----- EXTERNAL -----
@@ -43,6 +58,7 @@ import { GamePlanetWarsComponent } from './components/game/planet-wars/game-plan
     BrowserModule,
     BrowserAnimationsModule,
     // ----- MODULES -----
+    IconModule,
     MaterialModule,
     RoutingModule,
   ],

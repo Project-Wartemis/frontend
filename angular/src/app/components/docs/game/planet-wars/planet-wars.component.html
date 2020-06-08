@@ -1,0 +1,74 @@
+<div fxlayout="column">
+
+
+  <h2>1. Mechanics</h2>
+
+  <h3>a. Base</h3>
+  <p>
+    The game is played in space. There is a set number of <strong>planets</strong> at set (non-variable) positions.<br>
+    Each planet is controlled by a <strong>player</strong> (possibly by the neutral player), and each planet has an amount of ships on it.<br>
+    Each turn, every planet owned by a non-neutral player will <strong>build 1 ship</strong> on that planet.
+  </p>
+
+  <h3>b. Moving</h3>
+  <p>
+    Each turn, every player can choose to <strong>send</strong> a specific amount of ships to any other planet from any of the planets they control.<br>
+    The time it takes a ship/fleet to arrive to the destination is proportional to the distance between planets.<br>
+    It is the "ordinary" straight-line distance between two points, also called the <strong>Euclidean distance</strong>.
+  </p>
+
+  <h3>c. Battle</h3>
+  <p>
+    When a fleet arrives on a planet, a <strong>battle</strong> takes place. When multiple fleets arrive on the same planet at the same turn.<br>
+    Battles only happen on planets. Ships meeting in space do not fight.<br>
+    When a battle takes place, each fleet loses an equal amount of ships untill one fleet remains.<br>
+    Example: A has 5 ships, B has 3 ships. 3 ships are lost from both sides, so the winner is A with 2 ships remaining.<br>
+    The same can be applied for more than two fleets by only looking at the two fleets with the highest amount of ships (the other fleets automatically lose everything)<br>
+    Example: A has 10 ships, B has 7 ships, C has 2 ships. The winner is A with 3 ships remaining.
+  </p>
+
+  <h3>d. Winning</h3>
+  <p>
+    The goal is to be the only player remaining with ships available (stationary on planets and/or in space).
+  </p>
+
+
+  <mat-divider></mat-divider><br>
+  <h2>2. State syntax</h2>
+
+  <p>
+    In the state your bot receives, the <strong>neutral</strong> player will have id <strong>0</strong>, and <strong>your bot</strong> will have id <strong>1</strong>.
+  </p>
+
+  <h3>a. Typescript structure</h3>
+  <pre><code class="language-typescript" >{{stateStructure}}</code></pre>
+
+  <h3>b. JSON example</h3>
+  <p>
+    This is an example of your bot controlling earth, while there is an imminent attack from Mars controlled by an enemy.<br>
+    Mars and Venus are both unclaimed.
+  </p>
+  <pre><code class="language-json">{{stateExample}}</code></pre>
+
+  <mat-divider></mat-divider><br>
+  <h2>3. Action syntax</h2>
+
+  <h3>a. Typescript structure</h3>
+  <pre><code class="language-typescript" >{{actionStructure}}</code></pre>
+
+  <h3>b. JSON example</h3>
+  <p>
+    We will not survive the attack from Mars, but we have a chance if we retaliate. Mars is practically undefended!
+  </p>
+  <pre><code class="language-json">{{actionExample}}</code></pre>
+
+
+  <mat-divider></mat-divider><br>
+  <h2>4. Notes</h2>
+
+  <ul>
+    <li>When a battle result in 0 ships left over (a <strong>draw</strong>), the neutral player will be the new owner, with 0 ships.</li>
+    <li>If you have 5 ships on a planet, sending 5 ships is allowed, since building ships happens before sending them, so 1 ship will be left behind.</li>
+    <li>The Euclidean distance is always rounded up. The amount of turns it would take ship to fly from (0,0) to (10,10) is 15.</li>
+  </ul>
+</div>

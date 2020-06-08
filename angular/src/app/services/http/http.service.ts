@@ -14,12 +14,20 @@ export class HttpService {
     private http: HttpClient,
   ) { }
 
+  getAssetRoot(): string {
+    return '/assets/';
+  }
+
   getHttpRoot(): string {
     return environment.http_root;
   }
 
   getWsRoot(): string {
     return environment.ws_root;
+  }
+
+  getAssetUrl(path: string): string {
+    return this.getAssetRoot() + path;
   }
 
   getHttpUrl(path: string): string {
@@ -36,5 +44,9 @@ export class HttpService {
 
   post<T>(path: string, body: any): Observable<T> {
     return this.http.post<T>(this.getHttpUrl(path), body);
+  }
+
+  getAsset(path: string): Observable<string> {
+    return this.http.get(this.getAssetUrl(path), { responseType: 'text' });
   }
 }

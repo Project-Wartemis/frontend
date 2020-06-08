@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import "~prismjs/themes/prism-okaidia";
+@import "~prismjs/plugins/toolbar/prism-toolbar.css";
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -11,4 +14,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .icon-white {
   color: white;
+}
+
+.list-item-active {
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.1);
+  color: #ffba3b !important;
+}
+
+ic-icon {
+  padding: 4px;
 }

@@ -1,21 +1,32 @@
-<mat-sidenav-container class="appNavLeft mat-typography">
+<mat-sidenav-container class="app-nav-left mat-typography">
   <mat-sidenav #sidenav mode="over">
     <mat-action-list>
-      <mat-list-item [routerLink]="'/'" (click)="sidenav.close()">
+      <mat-list-item routerLink="/" (click)="sidenav.close()">
         <mat-icon matListIcon>home</mat-icon>
         <h3 matLine>Lobby</h3>
         <p matLine>
           <span>{{pluralize(lobby?.games.length, 'game', 'games')}}</span>
         </p>
       </mat-list-item>
+      <mat-list-item routerLink="/docs" (click)="sidenav.close()">
+        <mat-icon matListIcon>book</mat-icon>
+        <h3 matLine>Help</h3>
+      </mat-list-item>
     </mat-action-list>
   </mat-sidenav>
   <mat-sidenav-content fxLayout="column">
-    <mat-toolbar fxLayout="row" color="primary">
-      <button (click)="sidenav.toggle()" mat-icon-button>
+    <mat-toolbar fxLayout="row" fxLayoutGap=".5rem" color="primary">
+      <button fxShow fxHide.gt-xs (click)="sidenav.toggle()" mat-icon-button>
         <mat-icon>menu</mat-icon>
       </button>
-      <h1>Wartemis</h1>
+      <button routerLink="/" fxHide fxShow.gt-xs mat-raised-button color="primary">
+        <mat-icon>home</mat-icon>
+        Lobby
+      </button>
+      <button routerLink="/docs" fxHide fxShow.gt-xs mat-raised-button color="primary">
+        <mat-icon>book</mat-icon>
+        Help
+      </button>
       <span fxFlex></span>
       <h1>{{sessionService.name$ | async}}</h1>
       <button (click)="openDialogSetName()" mat-icon-button>
@@ -28,6 +39,6 @@
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-<div *ngIf="(websocketService.registered | async) === (false)" fxLayout fxLayoutAlign="center center" class="appLoadingCover">
+<div *ngIf="(websocketService.registered | async) === (false)" fxLayout fxLayoutAlign="center center" class="app-loading">
   <mat-spinner></mat-spinner>
 </div>

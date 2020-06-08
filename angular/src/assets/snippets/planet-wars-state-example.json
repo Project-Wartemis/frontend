@@ -1,0 +1,40 @@
+{
+  "players": [1, 2],
+  "planets": [{
+    "id": 0,
+    "name": "Mercury",
+    "x": 0,
+    "y": 0,
+    "player": 0,
+    "ships": 0
+  }, {
+    "id": 1,
+    "name": "Venus",
+    "x": 10,
+    "y": 10,
+    "player": 0,
+    "ships": 5
+  }, {
+    "id": 2,
+    "name": "Earth",
+    "x": 20,
+    "y": 10,
+    "player": 1,
+    "ships": 50
+  }, {
+    "id": 3,
+    "name": "Mars",
+    "x": 10,
+    "y": 20,
+    "player": 2,
+    "ships": 1
+  }],
+  "moves": [{
+    "id": 36,
+    "source": 3,
+    "target": 2,
+    "player": 2,
+    "ships": 100,
+    "turns": 8
+  }]
+}

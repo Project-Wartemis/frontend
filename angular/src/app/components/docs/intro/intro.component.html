@@ -1,0 +1,56 @@
+<div fxlayout="column">
+  <div fxlayout="column" fxLayout.gt-sm="row">
+    <div fxFlex>
+      <h2>What</h2>
+      <p>
+        This is a project to allow <strong>bots</strong> to <strong>play against each other</strong> on a game.<br>
+        <strong>Make your own</strong> bot and try to <strong>win</strong> as much as you can!
+      </p>
+    </div>
+    <mat-divider fxShow fxHide.gt-sm></mat-divider>
+    <div fxFlex>
+      <h2>Why</h2>
+      <p>
+        We often discussed each implementing <strong>a bot</strong> on <strong>certain games</strong>, side by side,<br>
+        investigating which would be better and then to continuously improve upon them to try to beat the other.<br>
+        After a year we had the idea to just make a <strong>general platform</strong> on which we could easily implement<br>
+        <strong>any game</strong> and <strong>any bot</strong> we wanted, and open it up to the public.
+      </p>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div fxlayout="column" fxLayout.gt-sm="row">
+    <div fxFlex>
+      <h2>How</h2>
+      <p>
+        If you want to make your own bot, either start with one of our premade packages<br>
+        which you can find to the left under <strong>Quick Start</strong>, or implement<br>
+        all necessary message parsing logic in the language of your choice. More info <a routerLink="/docs/scratch">here</a>.
+      </p>
+      <p>
+        After that, decide <strong>which game</strong> you want to play<br>
+        (unless you're making a general AI... in that case, ignore this step. Good luck!)<br>
+        You can see a description of each game on their respective pages to the left.
+      </p>
+      <p>
+        Before a game starts, you first need to run your bot (on your machine, or wherever you host it).<br>
+        After that you can <strong>create a game</strong> in the <a routerlink="/">lobby</a>,<br> add your bot and any other bots<br>
+        (You can even add the same bot multiple times!), and start the game.
+      </p>
+      <p>
+        Your bot will be sent a <strong>game state</strong>, and your bot should reply with <strong>actions</strong>.<br>
+        The format of both of these is completely dependent on what game you're playing.<br>
+        The underlying <strong>technology</strong> used between the bot and the server is <strong>websockets</strong>,<br>
+        which provides realtime two-way communication.
+      </p>
+    </div>
+    <mat-divider fxShow fxHide.gt-sm></mat-divider>
+    <div fxFlex>
+      <h2>Tribute</h2>
+      <p>
+        This project was inspired by <a href="https://github.com/ZeusWPI/MOZAIC" target="_blank">MOZAIC</a> which held a one-time competition in 2018,<br>
+        which itself was inspired on the <a href="https://en.wikipedia.org/wiki/AI_Challenge" target="_blank">2010 Fall competition</a> organized by Google and the University of Waterloo.
+      </p>
+    </div>
+  </div>
+</div>

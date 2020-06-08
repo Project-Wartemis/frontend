@@ -1,0 +1,39 @@
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened [fixedInViewport]="true" [fixedTopGap]="64" class="app-nav-docs">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/docs" routerLinkActive="list-item-active" [routerLinkActiveOptions]="{exact:true}">
+        <mat-icon matListIcon> home </mat-icon>
+        Intro
+      </a>
+      <mat-divider></mat-divider>
+      <h2>Games</h2>
+      <a mat-list-item routerLink="/docs/game/conquest" routerLinkActive="list-item-active" disabled>
+        <mat-icon matListIcon> device_hub </mat-icon>
+        Conquest
+      </a>
+      <a mat-list-item routerLink="/docs/game/planetwars" routerLinkActive="list-item-active">
+        <mat-icon matListIcon> public </mat-icon>
+        Planet Wars
+      </a>
+      <mat-divider></mat-divider>
+      <h2>Quick Start</h2>
+      <a mat-list-item routerLink="/docs/start/javascript" routerLinkActive="list-item-active" disabled>
+        <ic-icon [icon]="languageJavascriptIcon" size="24px"></ic-icon>
+        Javascript
+      </a>
+      <a mat-list-item routerLink="/docs/start/python" routerLinkActive="list-item-active" disabled>
+        <ic-icon [icon]="languagePythonIcon" size="24px"></ic-icon>
+        Python
+      </a>
+      <mat-divider></mat-divider>
+      <h2>Slow Start</h2>
+      <a mat-list-item routerLink="/docs/scratch" routerLinkActive="list-item-active" disabled>
+        <mat-icon matListIcon> settings_backup_restore </mat-icon>
+        From Scratch
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content fxLayout="column" class="app-nav-docs-content">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
