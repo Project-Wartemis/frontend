@@ -58,10 +58,17 @@
 <mat-divider></mat-divider><br>
 <h2>2. State syntax</h2>
 
-<p>
+<div>
   In the state your bot receives, the <strong>neutral</strong> player will have id <strong>0</strong>, and <strong>your bot</strong> will have id <strong>1</strong>.<br>
-  There is a lot of data included that is <strong>only used for animations</strong>, so don't be intimidated.
-</p>
+  There is a lot of data included that is <strong>only used for animations</strong>, so don't be intimidated.<br>
+  The only things that are relevant to your bot probably are:<br>
+  <ul>
+    <li>players - to see how many troops everybody gets to deploy</li>
+    <li>nodes - to get the structure of the game itself</li>
+    <li>links - to get the structure of the game itself</li>
+    <li>stages.end - to get the actual latest state</li>
+  </ul>
+</div>
 
 <h3>a. Typescript structure</h3>
 <pre><code class="language-typescript" >{{stateStructure}}</code></pre>
