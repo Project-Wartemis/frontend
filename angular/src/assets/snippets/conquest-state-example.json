@@ -1,0 +1,61 @@
+{
+  "players": [
+    { "id": 0, "income": 2 },
+    { "id": 1, "income": 1 }
+  ],
+  "nodes": [
+    { "id": 0, "name": "node0" },
+    { "id": 1, "name": "node1" },
+    { "id": 2, "name": "node2" },
+    { "id": 3, "name": "node3" }
+  ],
+  "links": [
+    { "id": 0, "a": 0, "b": 1 },
+    { "id": 0, "a": 1, "b": 2 },
+    { "id": 0, "a": 1, "b": 3 },
+    { "id": 0, "a": 2, "b": 3 }
+  ],
+  "stages": {
+    "start": [
+      { "id": 0, "owner": 1, "troops": 5 },
+      { "id": 1, "owner": 0, "troops": 1 },
+      { "id": 2, "owner": 2, "troops": 4 },
+      { "id": 3, "owner": 0, "troops": 5 }
+    ],
+    "travel": [
+      { "id": 0, "owner": 1, "troops": 2 },
+      { "id": 1, "owner": 0, "troops": 1 },
+      { "id": 2, "owner": 2, "troops": 4 },
+      { "id": 3, "owner": 0, "troops": 5 }
+    ],
+    "end": [
+      { "id": 0, "owner": 1, "troops": 2 },
+      { "id": 1, "owner": 1, "troops": 3 },
+      { "id": 2, "owner": 2, "troops": 4 },
+      { "id": 3, "owner": 0, "troops": 5 }
+    ]
+  },
+  "deploys": [
+    { "player": 1, "node": 0, "troops": 1 },
+    { "player": 2, "node": 2, "troops": 1 }
+  ],
+  "moves": [{
+    "player": 1,
+    "source": 0,
+    "target": 1,
+    "troops": 4
+  }],
+  "fights": {
+    "travel": [],
+    "combat": [{
+      "location": 1,
+      "armies": [{
+        "player": 0,
+        "troops": 1
+      },{
+        "player": 1,
+        "troops": 4
+      }]
+    }]
+  }
+}

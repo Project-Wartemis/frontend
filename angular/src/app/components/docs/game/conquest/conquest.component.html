@@ -1,1 +1,94 @@
-<p>WIP</p>
+<button mat-button color="warn">This game is still under development</button>
+
+<h2>1. Mechanics</h2>
+
+<h3>a. Start</h3>
+<p>
+  The game is played on a graph. There are a set number of nodes, connected by links.<br>
+  Each node is controlled by a <strong>player</strong> (possibly by the neutral player), and each node has an amount of troops on it.<br>
+</p>
+
+<h3>b. Deploy</h3>
+<p>
+  Each player has an amount of troops they get to <strong>deploy</strong>. The default amount is how many nodes you control, but may vary based on game settings.<br>
+  You get to <strong>choose</strong> where to deploy them and how many.<br>
+  You can <strong>split them up</strong> however you want, and you can even <strong>choose not to</strong> deploy all/any of them.<br>
+  You will, however, not be able to save them up and deploy later. <strong>They are lost</strong> if you do not use them.
+</p>
+
+<h3>c. Move</h3>
+<p>
+  Each turn, every player can choose to <strong>send</strong> a specific amount of troops from any controlled node to an adjacent node (directly connected with a link).
+</p>
+
+<h3>d. Battle</h3>
+<p>
+  When opposing armies <strong>meet</strong>, they fight. Each army loses an equal amount of troops until one army remains.<br>
+  There are two moment where armies battle:
+  1. While traveling to a node
+  2. When sieging a node
+</p>
+
+<h3>e. Travel battle by example</h3>
+<p>
+  Player 1 has node A, player 2 has node B, and node A and B are linked.<br>
+  Player 1 sends 10 troops from A to B.<br>
+  Player 2 send 6 troops from B to A.<br>
+  The armies meet on the link between A and B, and 4 troops are left from player 1.<br>
+  These 4 troops continue their path to node B.
+</p>
+
+<h3>f. Siege battle by example</h3>
+<p>
+  Players 1,2 and 3 have nodes A,B and C respectively, and they all have 10 troops.<br>
+  B is linked to both A and C.<br>
+  Player 1 sends 8 troops from A to B.<br>
+  Player 2 stands their ground.<br>
+  Player 3 sends 4 troops from C to B.<br>
+  The resulting siege in node B has the following participants: A(8) - B(10) - C(4)<br>
+  The winner is B with 2 troops remaining, and keeps control of their node.
+</p>
+
+<h3>g. Winning</h3>
+<p>
+  The goal is to be the only player remaining with nodes under their control.
+</p>
+
+
+<mat-divider></mat-divider><br>
+<h2>2. State syntax</h2>
+
+<p>
+  In the state your bot receives, the <strong>neutral</strong> player will have id <strong>0</strong>, and <strong>your bot</strong> will have id <strong>1</strong>.<br>
+  There is a lot of data included that is <strong>only used for animations</strong>, so don't be intimidated.
+</p>
+
+<h3>a. Typescript structure</h3>
+<pre><code class="language-typescript" >{{stateStructure}}</code></pre>
+
+<h3>b. JSON example</h3>
+<p>
+  Player 1 takes over node 1 with 4 troops sent from node 0.
+</p>
+<pre><code class="language-json">{{stateExample}}</code></pre>
+
+<mat-divider></mat-divider><br>
+<h2>3. Action syntax</h2>
+
+<h3>a. Typescript structure</h3>
+<pre><code class="language-typescript" >{{actionStructure}}</code></pre>
+
+<h3>b. JSON example</h3>
+<p>
+  The message sent by player 1 that resulted in the above state
+</p>
+<pre><code class="language-json">{{actionExample}}</code></pre>
+
+
+<mat-divider></mat-divider><br>
+<h2>4. Notes</h2>
+
+<ul>
+  <li>Deploys happen before moving. You can move troops that are freshly deployed.</li>
+  <li>If you have 5 troops on a node, sending 5 troops is allowed, but you will lose control of the node.</li>
+</ul>

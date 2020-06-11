@@ -1,0 +1,11 @@
+{
+  "deploys": [{
+    "node": 0,
+    "troops": 1
+  }],
+  "moves": [{
+    "source": 0,
+    "target": 1,
+    "troops": 4
+  }],
+}

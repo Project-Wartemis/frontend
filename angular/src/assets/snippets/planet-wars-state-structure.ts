@@ -6,7 +6,7 @@ interface State {
 
 interface Planet {
   id: number;
-  name: string; // name, not relevant for the actual game
+  name: string; // not relevant for the actual game
   x: number; // position
   y: number; // position
   player: number; // references a player

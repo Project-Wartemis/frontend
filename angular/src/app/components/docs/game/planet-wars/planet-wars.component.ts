@@ -27,6 +27,17 @@ export class DocsGamePlanetWarsComponent implements AfterViewChecked {
     this.loadStateStructure();
   }
 
+  ngAfterViewChecked() {
+    if(this.highlighted) {
+      return;
+    }
+    if(!this.actionExample || !this.actionStructure || !this.stateExample || !this.stateStructure) {
+      return;
+    }
+    this.highlighted = true;
+    this.highlightService.highlightAll();
+  }
+
   private loadActionExample(): void {
     this.httpService
       .getAsset('snippets/planet-wars-action-example.json')
@@ -57,17 +68,6 @@ export class DocsGamePlanetWarsComponent implements AfterViewChecked {
       .subscribe(snippet => {
         this.stateStructure = snippet;
       });
-  }
-
-  ngAfterViewChecked() {
-    if(this.highlighted) {
-      return;
-    }
-    if(!this.actionExample || !this.actionStructure || !this.stateExample || !this.stateStructure) {
-      return;
-    }
-    this.highlighted = true;
-    this.highlightService.highlightAll();
   }
 
 }
