@@ -6,6 +6,18 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+// fix to have routed components take up full space
+router-outlet + * {
+  width: 100%;
+  height: 100%;
+}
+
+// scrollbar inside this component, not the whole page
+router-outlet.scroll + * {
+  flex: 1 0 auto;
+  overflow-y: auto;
+}
+
 .app-button-right-bottom {
   position: fixed !important;
   right: 1rem;

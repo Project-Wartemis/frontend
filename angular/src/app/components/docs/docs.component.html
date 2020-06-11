@@ -1,5 +1,6 @@
-<mat-sidenav-container>
-  <mat-sidenav mode="side" opened [fixedInViewport]="true" [fixedTopGap]="64" class="app-nav-docs">
+<mat-sidenav-container fxFlex fxLayout="column">
+  <mat-sidenav mode="side" opened>
+  <!--<mat-sidenav mode="side" opened [fixedInViewport]="true" [fixedTopGap]="64" class="app-nav-docs">-->
     <mat-nav-list>
       <a mat-list-item routerLink="/docs" routerLinkActive="list-item-active" [routerLinkActiveOptions]="{exact:true}">
         <mat-icon matListIcon> home </mat-icon>
@@ -33,7 +34,7 @@
       </a>
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav-content fxLayout="column" class="app-nav-docs-content">
-    <router-outlet></router-outlet>
+  <mat-sidenav-content fxFlex>
+    <router-outlet class="scroll"></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
