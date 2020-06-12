@@ -1,3 +1,4 @@
 {
-  "board": "XOXO OXOX"
+  "board": "XOXO OXOX",
+  "symbol": "X" // the next player to move
 }
