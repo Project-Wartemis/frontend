@@ -1,0 +1,25 @@
+<h2>1. Mechanics</h2>
+
+<p>
+  The game is played on a 3x3 grid. There are 2 players, X and O.<br>
+  Each player gets to place their symbol on a free position on the 3x3 grid.<br>
+  Player X starts. The goal is to get 3 in a row (in any row/column or diagonal).<br>
+  The game is drawn if the board is full and neither player has 3 in a row.
+</p>
+
+
+<mat-divider></mat-divider><br>
+<h2>2. State syntax</h2>
+
+<p>
+  This represents a state where all corners have been filled in by X, and all edges are taken by O.
+</p>
+<pre><code class="language-json">{{stateExample}}</code></pre>
+
+<mat-divider></mat-divider><br>
+<h2>3. Action syntax</h2>
+
+<p>
+  The next player to move in the above state is X, and has only one position to place their symbol.
+</p>
+<pre><code class="language-json">{{actionExample}}</code></pre>

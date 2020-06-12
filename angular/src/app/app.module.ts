@@ -28,6 +28,8 @@ import { DocsStartJavascriptComponent } from './components/docs/start/javascript
 import { DocsStartPythonComponent } from './components/docs/start/python/python.component';
 import { DocsScratchComponent } from './components/docs/scratch/scratch.component';
 import { DocsComponent } from './components/docs/docs.component';
+import { GameTicTacToeComponent } from './components/game/tic-tac-toe/game-tic-tac-toe.component';
+import { DocsGameTicTacToeComponent } from './components/docs/game/tic-tac-toe/tic-tac-toe.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { DocsComponent } from './components/docs/docs.component';
     DocsStartPythonComponent,
     DocsScratchComponent,
     DocsComponent,
+    GameTicTacToeComponent,
+    DocsGameTicTacToeComponent,
   ],
   imports: [
     // ----- EXTERNAL -----

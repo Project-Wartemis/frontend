@@ -8,6 +8,7 @@ import { Client, Game, Lobby } from 'interfaces/base';
 import { Message, HistoryMessage, JoinMessage, LeaveMessage, StateMessage } from 'interfaces/message';
 import { GameConquestStateService } from 'services/game/conquest/game-conquest-state.service';
 import { GamePlanetWarsStateService } from 'services/game/planet-wars/game-planet-wars-state.service';
+import { GameTicTacToeStateService } from 'services/game/tic-tac-toe/game-tic-tac-toe-state.service';
 import { LobbyService } from 'services/lobby/lobby.service';
 import { WebsocketService } from 'services/websocket/websocket.service';
 import { AddBotToGameDialogComponent } from 'components/dialogs/add-bot-to-game/add-bot-to-game.component';
@@ -19,6 +20,7 @@ import { AddBotToGameDialogComponent } from 'components/dialogs/add-bot-to-game/
   providers: [
     GameConquestStateService,
     GamePlanetWarsStateService,
+    GameTicTacToeStateService,
   ],
 })
 export class GameComponent implements OnInit, OnDestroy {
@@ -41,6 +43,7 @@ export class GameComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private gameConquestStateService: GameConquestStateService,
     private gamePlanetWarsStateService: GamePlanetWarsStateService,
+    private gameTicTacToeStateService: GameTicTacToeStateService,
     private lobbyService: LobbyService,
     private websocketService: WebsocketService,
   ) { }
@@ -187,9 +190,11 @@ export class GameComponent implements OnInit, OnDestroy {
   broadcastTurn(): void {
     this.shouldStart = false;
     const state = this.history[this.turn - 1].state;
-    switch(this.game.engine.name) {
+    // TODO delay until game.engine is known
+    switch(this.game?.engine.name) {
       case 'Conquest':    this.gameConquestStateService  .processNewState(state); break;
       case 'Planet Wars': this.gamePlanetWarsStateService.processNewState(state); break;
+      case 'Tic Tac Toe': this.gameTicTacToeStateService.processNewState(state); break;
     }
   }
 }
