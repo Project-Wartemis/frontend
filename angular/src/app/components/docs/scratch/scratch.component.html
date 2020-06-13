@@ -1,1 +1,110 @@
-<p>WIP</p>
+<h1>From Scratch</h1>
+
+<p>
+  If there is no package available for your language, or you just want to understand the inner workings of this project better,<br>
+  You have come to the right place. Do not be afraid, this is not as complicated as it might seem.
+</p>
+
+<h2>1. Start</h2>
+
+<p>
+  Your language of choice needs to support websockets.<br>
+  You must be able to read/write json messages using this websocket.<br>
+  The websocket endpoint is <strong>api.wartemis.com/socket</strong>
+</p>
+
+<p>
+  Each message that is sent/received has atleast a property called <strong>type</strong>, that specifies...<br>
+  You guessed it, the message type.
+</p>
+
+<h2>2. Message flow</h2>
+
+<p>
+  When first connecting to the websocket, you will receive a <strong>connected</strong> message.<br>
+  The first thing you will probably want to do is send a <strong>register</strong> message.<br>
+  You can send it as early as you want, but it is advised to wait for the <strong>connected</strong> message.<br>
+  You will receive a <strong>registered</strong> message.<br>
+  If you are registered, and someone started a game with your bot, you will receive <strong>state</strong> messages.<br>
+  You can send <strong>action</strong> messages as a response if it is requested. (see the <strong>state</strong> message for more info)<br>
+  So to summarize:
+</p>
+<ul>
+  <li>receive connected : send register : receive registered</li>
+  <li>receive state : send action</li>
+</ul>
+
+<mat-divider></mat-divider><br>
+<h2>3. Incoming Messages</h2>
+
+<h3>a. Connected</h3>
+<p>
+  Received when connecting to the websocket
+</p>
+<pre><code class="language-json">{{messageConnected}}</code></pre>
+
+<h3>b. Registered</h3>
+<p>
+  Received when registered succesfully
+</p>
+<pre><code class="language-json">{{messageRegistered}}</code></pre>
+
+<h3>c. State</h3>
+<p>
+  Received when a new state for a game is available.<br>
+  The game and key values should be sent back with an <strong>action</strong> message.<br>
+  The game is a unique identifier for the game being played. This is public information.<br>
+  The key is bot/player specific. This will be different for each player in the game.<br>
+  The value move specifies if the game will be waiting for your action.<br>
+  (this can be false in games where not every player is making a move at the same time, like tic-tac-toe and chess)<br>
+  The content of the state is specific to the game being played.
+</p>
+<pre><code class="language-json">{{messageState}}</code></pre>
+
+<h3>d. Error</h3>
+<p>
+  Received when something went wrong. Most likely triggered by your bot not supplying data in a specified format.
+</p>
+<pre><code class="language-json">{{messageError}}</code></pre>
+
+<mat-divider></mat-divider><br>
+<h2>4. Outgoing Messages</h2>
+
+<h3>a. Register</h3>
+<p>
+  Sent when registering. Can only be sent once for obvious reasons.<br>
+  <strong>clientType</strong> - needs to be bot for a bot.<br>
+  <strong>name</strong> - the display name for your bot.<br>
+  <strong>game</strong> - what game this bot is used for. You can only specify one game here.<br>
+  For the value of this for your desired game, check the game specific page under the <strong>Register</strong> section.<br>
+</p>
+<pre><code class="language-json">{{messageRegister}}</code></pre>
+
+<h3>b. Action</h3>
+<p>
+  Sent when replying on a <strong>state</strong> message.<br>
+  <strong>game</strong> and <strong>key</strong> should be taken from the <strong>state</strong> message.<br>
+  The content of the action is specific to the game being played.
+</p>
+<pre><code class="language-json">{{messageAction}}</code></pre>
+
+<mat-divider></mat-divider><br>
+<h2>5. Notes</h2>
+
+<ul>
+  <li>
+    Your websocket implementation needs to comply with <a href="https://tools.ietf.org/html/rfc6455">RFC6455</a>.<br>
+    Most do, but the most important thing is that it supports ping/pong messages. if not your websocket will disconnect after 60 seconds.<br>
+    This ping/pong is server initiated, you will not have to worry about this.
+  </li>
+  <li>
+    In a state message a key is exchanged because the same bot can be added multiple times to the same game.
+  </li>
+  <li>
+    When registering, and you were previously part of games (you registered under the same name), you will instantly receive all latest state messages.<br>
+    This allows your bot to disconnect mid-game.
+  </li>
+  <li>
+    Authentication is non-existant at the moment. We know, it's planned. :)
+  </li>
+</ul>

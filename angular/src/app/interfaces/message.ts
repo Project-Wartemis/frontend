@@ -6,6 +6,7 @@ export interface Message {
 
 export interface ActionMessage extends Message {
   game: number;
+  key: string;
   action: object;
 }
 
@@ -46,6 +47,7 @@ export interface LobbyMessage extends Message {
 export interface RegisterMessage extends Message {
   clientType: string;
   name: string;
+  game: string;
 }
 
 export interface StartMessage extends Message {
@@ -54,7 +56,8 @@ export interface StartMessage extends Message {
 
 export interface StateMessage extends Message {
   game: number;
+  key: string;
   turn: number;
-  players: Array<number>;
+  move: boolean;
   state: object;
 }
