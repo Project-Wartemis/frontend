@@ -3,6 +3,7 @@ import { AfterViewChecked, Component } from '@angular/core';
 import { ActionMessage, ErrorMessage, Message, RegisterMessage, StateMessage } from 'interfaces/message';
 import { HighlightService } from 'services/highlight/highlight.service';
 import { HttpService } from 'services/http/http.service';
+import { ScrollService } from 'services/scroll/scroll.service';
 
 @Component({
   selector: 'app-docs-scratch',
@@ -24,6 +25,7 @@ export class DocsScratchComponent implements AfterViewChecked {
   constructor(
     private highlightService: HighlightService,
     private httpService: HttpService,
+    private scrollService: ScrollService,
   ) {
     this.highlighted = false;
     // incoming
@@ -66,6 +68,10 @@ export class DocsScratchComponent implements AfterViewChecked {
     }
     this.highlighted = true;
     this.highlightService.highlightAll();
+  }
+
+  public scroll(target: string): void {
+    this.scrollService.scroll(target, 'docs-scroll');
   }
 
 }
