@@ -1,78 +1,218 @@
-<h2>1. Mechanics</h2>
+<h1 id="title">Planet Wars</h1>
 
-<h3>a. Start</h3>
-<p>
-  The game is played in space. There is a set number of <strong>planets</strong> at set (non-variable) positions.<br>
-  Each planet is controlled by a <strong>player</strong> (possibly by the neutral player), and each planet has an amount of ships on it.<br>
-  Each turn, every planet owned by a non-neutral player will <strong>build 1 ship</strong> on that planet.
-</p>
+<mat-card>
+  <mat-card-header>
+     <mat-card-title>Content</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ol type="1">
+      <li>
+        <a [routerLink]="" (click)="scroll('mechanics')">Mechanics</a>
+        <ol type="a">
+          <li><a [routerLink]="" (click)="scroll('start')">Start</a></li>
+          <li><a [routerLink]="" (click)="scroll('moving')">Moving</a></li>
+          <li><a [routerLink]="" (click)="scroll('battle')">Battle</a></li>
+          <li><a [routerLink]="" (click)="scroll('winning')">Winning</a></li>
+        </ol>
+      </li>
+      <li><a [routerLink]="" (click)="scroll('register')">Register</a></li>
+      <li>
+        <a [routerLink]="" (click)="scroll('state')">State syntax</a>
+        <ol type="a">
+          <li><a [routerLink]="" (click)="scroll('state-structure')">Typescript structure</a></li>
+          <li><a [routerLink]="" (click)="scroll('state-example')">JSON example</a></li>
+        </ol>
+      </li>
+      <li>
+        <a [routerLink]="" (click)="scroll('action')">Action syntax</a>
+        <ol type="a">
+          <li><a [routerLink]="" (click)="scroll('action-structure')">Typescript structure</a></li>
+          <li><a [routerLink]="" (click)="scroll('action-example')">JSON example</a></li>
+        </ol>
+      </li>
+      <li><a [routerLink]="" (click)="scroll('notes')">Notes</a></li>
+    </ol>
+  </mat-card-content>
+</mat-card>
 
-<h3>b. Moving</h3>
-<p>
-  Each turn, every player can choose to <strong>send</strong> a specific amount of ships to any other planet from any of the planets they control.<br>
-  The time it takes a ship/fleet to arrive to the destination is proportional to the distance between planets.<br>
-  It is the "ordinary" straight-line distance between two points, also called the <strong>Euclidean distance</strong>.
-</p>
+<br>
 
-<h3>c. Battle</h3>
-<p>
-  When a fleet arrives on a planet, a <strong>battle</strong> takes place.<br>
-  Battles only happen on planets. Ships meeting in space do not fight.<br>
-  When a battle takes place, each fleet loses an equal amount of ships until one fleet remains.<br>
-  Example: A has 5 ships, B has 3 ships. 3 ships are lost from both sides, so the winner is A with 2 ships remaining.<br>
-  The same can be applied for more than two fleets by only looking at the two fleets with the highest amount of ships (the other fleets automatically lose everything)<br>
-  Example: A has 10 ships, B has 7 ships, C has 2 ships. The winner is A with 3 ships remaining.
-</p>
+<div fxLayout="row" fxLayoutAlign="center center">
+  <img src="/assets/screenshot-planet-wars-start.png" alt="Screenshot Planet Wars" class="screenshot">
+  <img src="/assets/screenshot-planet-wars.png" alt="Screenshot Planet Wars" class="screenshot">
+</div>
 
-<h3>d. Winning</h3>
-<p>
-  The goal is to be the only player remaining with ships available (stationary on planets and/or in space).
-</p>
+<br><mat-divider></mat-divider><br>
 
+<h2 id="mechanics">
+  1. Mechanics
+  <a [routerLink]="" (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+</h2>
 
-<mat-divider></mat-divider><br>
-<h2>2. Register</h2>
+<mat-card id="start">
+  <mat-card-header>
+    <mat-card-title>
+      a. Start
+      <a [routerLink]="" (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    The game is played in space. There is a set number of <strong>planets</strong> at set (non-variable) positions.<br>
+    Each planet is controlled by a <strong>player</strong> (possibly by the neutral player), and each planet has an amount of ships on it.<br>
+    Each turn, every planet owned by a non-neutral player will <strong>build 1 ship</strong> on that planet.
+  </mat-card-content>
+</mat-card>
 
-<p>
-  To register, use the game name <strong>'Planet Wars'</strong>.
-</p>
+<br>
 
+<mat-card id="moving">
+  <mat-card-header>
+    <mat-card-title>
+      b. Moving
+      <a [routerLink]="" (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    Each turn, every player can choose to <strong>send</strong> a specific amount of ships to any other planet from any of the planets they control.<br>
+    The time it takes a ship/fleet to arrive to the destination is proportional to the distance between planets.<br>
+    It is the "ordinary" straight-line distance between two points, also called the <strong>Euclidean distance</strong>.
+  </mat-card-content>
+</mat-card>
 
-<mat-divider></mat-divider><br>
-<h2>3. State syntax</h2>
+<br>
 
-<p>
-  In the state your bot receives, the <strong>neutral</strong> player will have id <strong>0</strong>, and <strong>your bot</strong> will have id <strong>1</strong>.
-</p>
+<mat-card id="battle">
+  <mat-card-header>
+    <mat-card-title>
+      c. Battle
+      <a [routerLink]="" (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    When a fleet arrives on a planet, a <strong>battle</strong> takes place.<br>
+    Battles only happen on planets. Ships meeting in space do not fight.<br>
+    When a battle takes place, each fleet loses an equal amount of ships until one fleet remains.<br>
+    Example: A has 5 ships, B has 3 ships. 3 ships are lost from both sides, so the winner is A with 2 ships remaining.<br>
+    The same can be applied for more than two fleets by only looking at the two fleets with the highest amount of ships (the other fleets automatically lose everything)<br>
+    Example: A has 10 ships, B has 7 ships, C has 2 ships. The winner is A with 3 ships remaining.
+  </mat-card-content>
+</mat-card>
 
-<h3>a. Typescript structure</h3>
-<pre><code class="language-typescript" >{{stateStructure}}</code></pre>
+<br>
 
-<h3>b. JSON example</h3>
-<p>
+<mat-card id="winning">
+  <mat-card-header>
+    <mat-card-title>
+      d. Winning
+      <a [routerLink]="" (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    The goal is to be the only player remaining with ships available (stationary on planets and/or in space).
+  </mat-card-content>
+</mat-card>
+
+<br><mat-divider></mat-divider><br>
+
+<h2 id="register">
+  2. Register
+  <a [routerLink]="" (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+</h2>
+
+<mat-card>
+  <mat-card-content>
+    To register, use the game name <strong>'Planet Wars'</strong>.
+  </mat-card-content>
+</mat-card>
+
+<br><mat-divider></mat-divider><br>
+
+<h2 id="state">
+  3. State syntax
+  <a [routerLink]="" (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+</h2>
+
+<mat-card>
+  <mat-card-content>
+    In the state your bot receives, the <strong>neutral</strong> player will have id <strong>0</strong>, and <strong>your bot</strong> will have id <strong>1</strong>.
+  </mat-card-content>
+</mat-card>
+
+<br>
+
+<mat-card id="state-structure">
+  <mat-card-header>
+    <mat-card-title>
+      a. Typescript structure
+      <a [routerLink]="" (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <pre><code class="language-typescript" >{{stateStructure}}</code></pre>
+  </mat-card-content>
+</mat-card>
+
+<br>
+
+<mat-card id="state-example">
+  <mat-card-header>
+    <mat-card-title>
+      b. JSON example
+      <a [routerLink]="" (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
   This is an example of your bot controlling earth, while there is an imminent attack from Mars controlled by an enemy.<br>
   Mars and Venus are both unclaimed.
-</p>
-<pre><code class="language-json">{{stateExample}}</code></pre>
+    <pre><code class="language-json" >{{stateExample}}</code></pre>
+  </mat-card-content>
+</mat-card>
 
-<mat-divider></mat-divider><br>
-<h2>4. Action syntax</h2>
+<br><mat-divider></mat-divider><br>
 
-<h3>a. Typescript structure</h3>
-<pre><code class="language-typescript" >{{actionStructure}}</code></pre>
+<h2 id="action">
+  4. Action syntax
+  <a [routerLink]="" (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+</h2>
 
-<h3>b. JSON example</h3>
-<p>
-  We will not survive the attack from Mars, but we have a chance if we retaliate. Mars is practically undefended!
-</p>
-<pre><code class="language-json">{{actionExample}}</code></pre>
+<mat-card id="action-structure">
+  <mat-card-header>
+    <mat-card-title>
+      a. Typescript structure
+      <a [routerLink]="" (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <pre><code class="language-typescript" >{{actionStructure}}</code></pre>
+  </mat-card-content>
+</mat-card>
 
+<mat-card id="action-example">
+  <mat-card-header>
+    <mat-card-title>
+      b. JSON example
+      <a [routerLink]="" (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    We will not survive the attack from Mars, but we have a chance if we retaliate. Mars is practically undefended!
+    <pre><code class="language-json">{{actionExample}}</code></pre>
+  </mat-card-content>
+</mat-card>
 
-<mat-divider></mat-divider><br>
-<h2>5. Notes</h2>
+<br><mat-divider></mat-divider><br>
 
-<ul>
-  <li>When a battle result in 0 ships left over (a <strong>draw</strong>), the neutral player will be the new owner, with 0 ships.</li>
-  <li>If you have 5 ships on a planet, sending 5 ships is allowed, since building ships happens before sending them, so 1 ship will be left behind.</li>
-  <li>The Euclidean distance is always rounded up. The amount of turns it would take ship to fly from (0,0) to (10,10) is 15.</li>
-</ul>
+<h2 id="notes">
+  5. Notes
+  <a [routerLink]="" (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+</h2>
+
+<mat-card>
+  <mat-card-content>
+    <ul>
+      <li>When a battle result in 0 ships left over (a <strong>draw</strong>), the neutral player will be the new owner, with 0 ships.</li>
+      <li>If you have 5 ships on a planet, sending 5 ships is allowed, since building ships happens before sending them, so 1 ship will be left behind.</li>
+      <li>The Euclidean distance is always rounded up. The amount of turns it would take ship to fly from (0,0) to (10,10) is 15.</li>
+    </ul>
+  </mat-card-content>
+</mat-card>

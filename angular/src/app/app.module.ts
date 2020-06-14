@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconModule } from '@visurel/iconify-angular';
 import { MaterialModule } from 'modules/material.module';
 import { RoutingModule } from 'modules/routing.module';
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 // ----- COMPONENTS -----
 import { AppComponent } from './app.component';
 import { LobbyComponent } from 'components/lobby/lobby.component';
@@ -65,6 +66,7 @@ import { DocsGameTicTacToeComponent } from './components/docs/game/tic-tac-toe/t
     IconModule,
     MaterialModule,
     RoutingModule,
+    ScrollToModule.forRoot(),
   ],
   providers: [],
   entryComponents: [],

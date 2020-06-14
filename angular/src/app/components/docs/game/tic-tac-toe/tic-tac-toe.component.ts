@@ -2,6 +2,7 @@ import { AfterViewChecked, Component } from '@angular/core';
 
 import { HighlightService } from 'services/highlight/highlight.service';
 import { HttpService } from 'services/http/http.service';
+import { ScrollService } from 'services/scroll/scroll.service';
 
 @Component({
   selector: 'app-docs-game-tic-tac-toe',
@@ -17,6 +18,7 @@ export class DocsGameTicTacToeComponent implements AfterViewChecked {
   constructor(
     private highlightService: HighlightService,
     private httpService: HttpService,
+    private scrollService: ScrollService,
   ) {
     this.highlighted = false;
     this.loadActionExample();
@@ -32,6 +34,10 @@ export class DocsGameTicTacToeComponent implements AfterViewChecked {
     }
     this.highlighted = true;
     this.highlightService.highlightAll();
+  }
+
+  public scroll(target: string): void {
+    this.scrollService.scroll(target, 'docs-scroll');
   }
 
   private loadActionExample(): void {
