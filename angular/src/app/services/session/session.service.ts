@@ -10,7 +10,7 @@ export class SessionService {
 
   constructor(
   ) {
-    this.name$ = new BehaviorSubject<string>(localStorage.getItem('SESSION_NAME'));
+    this.name$ = new BehaviorSubject<string>(localStorage.getItem('SESSION_NAME') || 'Anonymous');
   }
 
   public setName(name: string): void {

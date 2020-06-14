@@ -27,19 +27,16 @@ export class AppComponent implements OnInit {
     this.lobbyService.lobby$.subscribe({
       next: lobby => this.lobby = lobby
     });
-    if(!this.sessionService.name$.getValue()) {
-      this.openDialogSetName();
-    }
   }
 
-  pluralize(count: number, singular: string, plural: string): string {
+  public pluralize(count: number, singular: string, plural: string): string {
     if(count === 1) {
       return count + ' ' + singular;
     }
     return count + ' ' + plural;
   }
 
-  openDialogSetName(): void {
+  public openDialogSetName(): void {
     const dialogRef = this.dialog.open(SetNameDialogComponent, {
       width: '250px'
     });
