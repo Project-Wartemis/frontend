@@ -146,7 +146,7 @@ export class GamePlanetWarsComponent implements OnChanges {
   }
 
   private getColorByPlayerId(id: number): string {
-    return this.players.find(b => b.id === id)?.color || '#000000';
+    return this.players.find(p => p.id === id)?.color || '#000000';
   }
 
 }

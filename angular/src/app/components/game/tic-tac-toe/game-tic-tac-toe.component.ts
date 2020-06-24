@@ -71,7 +71,7 @@ export class GameTicTacToeComponent implements OnChanges {
       .data([[4, 2, 4, 8], [6, 2, 6, 8], [2, 4, 8, 4], [2, 6, 8, 6]])
       .enter()
       .append('line')
-        .attr('style', 'stroke:black; stroke-width:0.05; stroke-linecap: round')
+        .attr('style', 'stroke:grey; stroke-width:0.05; stroke-linecap: round')
         .attr('x1', d => d[0])
         .attr('y1', d => d[1])
         .attr('x2', d => d[2])
@@ -104,15 +104,18 @@ export class GameTicTacToeComponent implements OnChanges {
     const elementsX = svg.selectAll('g.x').data(positionsX).enter().append('g').attr('class', 'x');
     const elementsO = svg.selectAll('g.o').data(positionsO).enter().append('g').attr('class', 'o');
 
+    const colorX = this.getColorBySymbol('X');
+    const colorO = this.getColorBySymbol('O');
+
     elementsX.append('line')
-      .attr('style', 'stroke:black; stroke-width:0.15')
+      .attr('style', `stroke:${colorX}; stroke-width:0.15`)
       .attr('x1', d => d.x - .65)
       .attr('y1', d => d.y - .65)
       .attr('x2', d => d.x + .65)
       .attr('y2', d => d.y + .65);
 
     elementsX.append('line')
-      .attr('style', 'stroke:black; stroke-width:0.15')
+      .attr('style', `stroke:${colorX}; stroke-width:0.15`)
       .attr('x1', d => d.x - .65)
       .attr('y1', d => d.y + .65)
       .attr('x2', d => d.x + .65)
@@ -120,13 +123,17 @@ export class GameTicTacToeComponent implements OnChanges {
 
     elementsO.append('circle')
       .attr('r', .65)
-      .attr('stroke', 'black')
+      .attr('stroke', colorO)
       .attr('fill', 'none')
       .attr('stroke-width', .15)
       .attr('cx', d => d.x)
       .attr('cy', d => d.y);
 
     callback();
+  }
+
+  private getColorBySymbol(symbol: string): string {
+    return this.players['XO'.indexOf(symbol)]?.color || '#000000';
   }
 
 }
