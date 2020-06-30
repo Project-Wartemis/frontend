@@ -47,6 +47,10 @@ export class HttpService {
   }
 
   getAsset(path: string): Observable<string> {
-    return this.http.get(this.getAssetUrl(path), { responseType: 'text' });
+    return this.getText(this.getAssetUrl(path));
+  }
+
+  getText(path: string): Observable<string> {
+    return this.http.get(path, { responseType: 'text' });
   }
 }

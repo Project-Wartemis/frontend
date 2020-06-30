@@ -8,6 +8,7 @@ import { DocsGameConquestComponent } from 'components/docs/game/conquest/conques
 import { DocsGamePlanetWarsComponent } from 'components/docs/game/planet-wars/planet-wars.component';
 import { DocsGameTicTacToeComponent } from 'components/docs/game/tic-tac-toe/tic-tac-toe.component';
 import { DocsScratchComponent } from 'components/docs/scratch/scratch.component';
+import { DocsStartGoComponent } from 'components/docs/start/go/go.component';
 import { DocsStartJavascriptComponent } from 'components/docs/start/javascript/javascript.component';
 import { DocsStartPythonComponent } from 'components/docs/start/python/python.component';
 import { GameComponent } from 'components/game/game.component';
@@ -34,6 +35,9 @@ const routes: Routes = [
     }, {
       path: 'game/tictactoe',
       component: DocsGameTicTacToeComponent
+    }, {
+      path: 'start/go',
+      component: DocsStartGoComponent
     }, {
       path: 'start/javascript',
       component: DocsStartJavascriptComponent

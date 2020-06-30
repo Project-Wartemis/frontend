@@ -31,6 +31,7 @@ import { DocsScratchComponent } from './components/docs/scratch/scratch.componen
 import { DocsComponent } from './components/docs/docs.component';
 import { GameTicTacToeComponent } from './components/game/tic-tac-toe/game-tic-tac-toe.component';
 import { DocsGameTicTacToeComponent } from './components/docs/game/tic-tac-toe/tic-tac-toe.component';
+import { DocsStartGoComponent } from './components/docs/start/go/go.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { DocsGameTicTacToeComponent } from './components/docs/game/tic-tac-toe/t
     DocsComponent,
     GameTicTacToeComponent,
     DocsGameTicTacToeComponent,
+    DocsStartGoComponent,
   ],
   imports: [
     // ----- EXTERNAL -----

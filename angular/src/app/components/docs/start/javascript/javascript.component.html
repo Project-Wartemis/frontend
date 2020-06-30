@@ -1,1 +1,199 @@
-<p>WIP</p>
+<h1 id="title">Javascript Package</h1>
+
+<mat-card>
+  <mat-card-header>
+     <mat-card-title>Content</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ol type="1">
+      <li><a [routerLink]="" (click)="scroll('installation')">Installation</a></li>
+      <li><a [routerLink]="" (click)="scroll('usage')">Usage</a></li>
+      <li>
+        <a [routerLink]="" (click)="scroll('api')">API</a>
+        <ol type="a">
+          <li><a [routerLink]="" (click)="scroll('constructor')">constructor</a></li>
+          <li><a [routerLink]="" (click)="scroll('handle-error')">handleError</a></li>
+          <li><a [routerLink]="" (click)="scroll('handle-state')">handleState</a></li>
+        </ol>
+      </li>
+      <li>
+        <a [routerLink]="" (click)="scroll('examples')">Examples</a>
+        <ol type="a">
+          <li><a [routerLink]="" (click)="scroll('tic-tac-toe')">Tic Tac Toe</a></li>
+          <li><a [routerLink]="" (click)="scroll('planet-wars')">Planet Wars</a></li>
+        </ol>
+      </li>
+    </ol>
+  </mat-card-content>
+</mat-card>
+
+<br><mat-divider></mat-divider><br>
+
+<h2 id="installation">
+  1. Installation
+  <a (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+</h2>
+
+<mat-card>
+  <mat-card-content>
+    <pre><code class="language-bash">npm install wartemis</code></pre>
+  </mat-card-content>
+</mat-card>
+
+<br><mat-divider></mat-divider><br>
+
+<h2 id="usage">
+  2. Usage
+  <a (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+</h2>
+
+<mat-card>
+  <mat-card-content>
+    <ol>
+      <li>Make a class that <strong>extends</strong> the Bot class</li>
+      <li><strong>Implement</strong> the required methods (see <a [routerLink]="" (click)="scroll('api')">API</a>)</li>
+      <li>Call <strong>start()</strong> exactly once</li>
+    </ol>
+  </mat-card-content>
+</mat-card>
+
+<br><mat-divider></mat-divider><br>
+
+<h2 id="api">
+  3. API
+  <a (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+</h2>
+
+<mat-card id="constructor">
+  <mat-card-header>
+    <mat-card-title>
+      a. Constructor
+      <a (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-table [dataSource]="apiConstructorData">
+      <ng-container matColumnDef="argument">
+        <mat-header-cell *matHeaderCellDef>Argument</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.argument}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.type}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="default">
+        <mat-header-cell *matHeaderCellDef>Default</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.default}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.description}}</mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="apiColumnsWithDefault"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: apiColumnsWithDefault;"></mat-row>
+    </mat-table>
+  </mat-card-content>
+</mat-card>
+
+<br>
+
+<mat-card id="handle-error">
+  <mat-card-header>
+    <mat-card-title>
+      b. handleError
+      <a (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-table [dataSource]="apiHandleErrorData">
+      <ng-container matColumnDef="argument">
+        <mat-header-cell *matHeaderCellDef>Argument</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.argument}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.type}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.description}}</mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="apiColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: apiColumns;"></mat-row>
+    </mat-table>
+  </mat-card-content>
+</mat-card>
+
+<br>
+
+<mat-card id="handle-state">
+  <mat-card-header>
+    <mat-card-title>
+      c. handleState
+      <a (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-table [dataSource]="apiHandleStateData">
+      <ng-container matColumnDef="argument">
+        <mat-header-cell *matHeaderCellDef>Argument</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.argument}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.type}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.description}}</mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="apiColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: apiColumns;"></mat-row>
+    </mat-table>
+  </mat-card-content>
+</mat-card>
+
+<br><mat-divider></mat-divider><br>
+
+<h2 id="examples">
+  4. Examples
+  <a (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+</h2>
+
+<mat-card>
+  <mat-card-content>
+    These are the implementation of the demobots. The github repositories can be found here:
+    <ul>
+      <li><a href="https://github.com/Project-Wartemis/bot-tic-tac-toe" target="_blank">Tic Tac Toe</a></li>
+      <li><a href="https://github.com/Project-Wartemis/bot-planet-wars" target="_blank">Planet Wars</a></li>
+    </ul>
+  </mat-card-content>
+</mat-card>
+
+<br>
+
+<mat-card id="tic-tac-toe">
+  <mat-card-header>
+    <mat-card-title>
+      a. Tic Tac Toe
+      <a (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <pre><code class="language-typescript" >{{botTicTacToeExample}}</code></pre>
+  </mat-card-content>
+</mat-card>
+
+<br>
+
+<mat-card id="planet-wars">
+  <mat-card-header>
+    <mat-card-title>
+      b. Planet Wars
+      <a (click)="scroll('title')" mat-icon-button><mat-icon>keyboard_arrow_up</mat-icon></a>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <pre><code class="language-typescript" >{{botPlanetWarsExample}}</code></pre>
+  </mat-card-content>
+</mat-card>

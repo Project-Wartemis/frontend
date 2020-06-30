@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import languageGo from '@iconify/icons-mdi/language-go';
 import languageJavascript from '@iconify/icons-mdi/language-javascript';
 import languagePython from '@iconify/icons-mdi/language-python';
 
@@ -9,6 +10,7 @@ import languagePython from '@iconify/icons-mdi/language-python';
 })
 export class DocsComponent implements OnInit {
 
+  public languageGoIcon = languageGo;
   public languageJavascriptIcon = languageJavascript;
   public languagePythonIcon = languagePython;
 
