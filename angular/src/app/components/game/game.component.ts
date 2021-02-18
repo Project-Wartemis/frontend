@@ -9,6 +9,7 @@ import { Message, HistoryMessage, JoinMessage, LeaveMessage, StateMessage } from
 import { GameConquestStateService } from 'services/game/conquest/game-conquest-state.service';
 import { GamePlanetWarsStateService } from 'services/game/planet-wars/game-planet-wars-state.service';
 import { GameTicTacToeStateService } from 'services/game/tic-tac-toe/game-tic-tac-toe-state.service';
+import { GameChessStateService } from 'services/game/chess/game-chess-state.service';
 import { LobbyService } from 'services/lobby/lobby.service';
 import { WebsocketService } from 'services/websocket/websocket.service';
 import { AddBotToGameDialogComponent } from 'components/dialogs/add-bot-to-game/add-bot-to-game.component';
@@ -21,6 +22,7 @@ import { AddBotToGameDialogComponent } from 'components/dialogs/add-bot-to-game/
     GameConquestStateService,
     GamePlanetWarsStateService,
     GameTicTacToeStateService,
+    GameChessStateService,
   ],
 })
 export class GameComponent implements OnInit, OnDestroy {
@@ -44,6 +46,7 @@ export class GameComponent implements OnInit, OnDestroy {
     private gameConquestStateService: GameConquestStateService,
     private gamePlanetWarsStateService: GamePlanetWarsStateService,
     private gameTicTacToeStateService: GameTicTacToeStateService,
+    private gameChessStateService: GameChessStateService,
     private lobbyService: LobbyService,
     private websocketService: WebsocketService,
   ) { }
@@ -144,7 +147,7 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   back(): void {
-    this.turn -= 5;
+    this.turn -= 1;
     if(this.turn < 1) {
       this.turn = 1;
     }
@@ -162,7 +165,7 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   forward(): void {
-    this.turn += 5;
+    this.turn += 1;
     if(this.turn > this.history.length) {
       this.turn = this.history.length;
     }
@@ -195,6 +198,7 @@ export class GameComponent implements OnInit, OnDestroy {
       case 'Conquest':    this.gameConquestStateService  .processNewState(state); break;
       case 'Planet Wars': this.gamePlanetWarsStateService.processNewState(state); break;
       case 'Tic Tac Toe': this.gameTicTacToeStateService.processNewState(state); break;
+      case 'Chess': this.gameChessStateService.processNewState(state); break;
     }
   }
 }

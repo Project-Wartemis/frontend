@@ -66,6 +66,7 @@
       <app-game-conquest    *ngSwitchCase="'Conquest'"    [players]="game.players" [playing]="playing" [speed]="speed" (done)="turnEnd()" fxFlex></app-game-conquest>
       <app-game-planet-wars *ngSwitchCase="'Planet Wars'" [players]="game.players" [playing]="playing" [speed]="speed" (done)="turnEnd()" fxFlex></app-game-planet-wars>
       <app-game-tic-tac-toe *ngSwitchCase="'Tic Tac Toe'" [players]="game.players" [playing]="playing" [speed]="speed" (done)="turnEnd()" fxFlex></app-game-tic-tac-toe>
+      <app-game-chess       *ngSwitchCase="'Chess'"       [players]="game.players" [playing]="playing" [speed]="speed" (done)="turnEnd()" fxFlex></app-game-chess>
       <div *ngSwitchDefault>No renderer found for {{ game?.engine?.name || 'N/A' }}... Sorry!</div>
     </ng-container>
     <mat-toolbar fxLayout="row" fxLayoutGap=".5rem" color="primary">
