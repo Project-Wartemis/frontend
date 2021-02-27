@@ -70,11 +70,11 @@ export class GameChessComponent implements OnChanges {
 
     const data = [];
     data.push([-0.1, -0.1, 8.2, 8.2, '#525252']);
-    data.push([0, 0, 8, 8, 'white']);
+    data.push([0, 0, 8, 8, '#ab5252']);
     for(let i = 0; i < 32; i++) {
       const y = Math.floor(i / 4);
       const x = 2 * (i % 4) + y % 2;
-      data.push([x, y, 1, 1, '#ab5252']);
+      data.push([x, y, 1, 1, 'white']);
     }
 
     svg.selectAll('rect')
@@ -101,52 +101,14 @@ export class GameChessComponent implements OnChanges {
 
     const svg = d3.select(element).select('svg');
 
-    svg.selectAll('text')
-      .data(this.state.pieces)
-      .enter()
+    const pieces = svg.selectAll('text').data(this.state.pieces, d => d ? (d as any).id : (this as any).id);
+    const newPieces = pieces.enter()
       .append('text')
         .attr('style', 'font-size:1; text-anchor:middle; alignment-baseline:middle')
         .attr('x', d => d.x + 0.5)
         .attr('y', d => d.y + 0.6)
         .text(d => d.code);
-
-    /*const positionsAll = this.state.board.split('').map((symbol, i) => ({
-      i,
-      symbol,
-      x: (i % 3) * 2 + 3,
-      y: Math.floor(i / 3) * 2 + 3
-    }));
-
-    const positionsX = positionsAll.filter(p => p.symbol === 'X');
-    const positionsO = positionsAll.filter(p => p.symbol === 'O');
-
-    const elementsX = svg.selectAll('g.x').data(positionsX).enter().append('g').attr('class', 'x');
-    const elementsO = svg.selectAll('g.o').data(positionsO).enter().append('g').attr('class', 'o');
-
-    const colorX = this.getColorBySymbol('X');
-    const colorO = this.getColorBySymbol('O');
-
-    elementsX.append('line')
-      .attr('style', `stroke:${colorX}; stroke-width:0.15`)
-      .attr('x1', d => d.x - .65)
-      .attr('y1', d => d.y - .65)
-      .attr('x2', d => d.x + .65)
-      .attr('y2', d => d.y + .65);
-
-    elementsX.append('line')
-      .attr('style', `stroke:${colorX}; stroke-width:0.15`)
-      .attr('x1', d => d.x - .65)
-      .attr('y1', d => d.y + .65)
-      .attr('x2', d => d.x + .65)
-      .attr('y2', d => d.y - .65);
-
-    elementsO.append('circle')
-      .attr('r', .65)
-      .attr('stroke', colorO)
-      .attr('fill', 'none')
-      .attr('stroke-width', .15)
-      .attr('cx', d => d.x)
-      .attr('cy', d => d.y);*/
+    pieces.exit().remove();
 
     callback();
   }

@@ -9,6 +9,8 @@ import { State, StateInternal } from 'interfaces/game/chess';
 })
 export class GameChessStateService {
 
+  private readonly pieces = 'KQRBNPkqrbnp';
+
   public state$: BehaviorSubject<StateInternal>;
 
   constructor() {
@@ -32,6 +34,7 @@ export class GameChessStateService {
         continue;
       }
       pieces.push({
+        id: x + 8 * y,
         code: this.characterToCode(char),
         x,
         y
@@ -42,21 +45,6 @@ export class GameChessStateService {
   }
 
   private characterToCode(character: string): string {
-    switch(character) {
-      case 'K': return '\u2654';
-      case 'Q': return '\u2655';
-      case 'R': return '\u2656';
-      case 'B': return '\u2657';
-      case 'N': return '\u2658';
-      case 'P': return '\u2659';
-      case 'P': return '\u2659';
-      case 'k': return '\u265A';
-      case 'q': return '\u265B';
-      case 'r': return '\u265C';
-      case 'b': return '\u265D';
-      case 'n': return '\u265E';
-      case 'p': return '\u265F';
-      default: return '';
-    }
+    return String.fromCharCode(0x2654 + this.pieces.indexOf(character));
   }
 }
