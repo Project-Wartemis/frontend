@@ -102,7 +102,7 @@ export class GameChessComponent implements OnChanges {
     const svg = d3.select(element).select('svg');
 
     const pieces = svg.selectAll('text').data(this.state.pieces, d => d ? (d as any).id : (this as any).id);
-    const newPieces = pieces.enter()
+    pieces.enter()
       .append('text')
         .attr('style', 'font-size:1; text-anchor:middle; alignment-baseline:middle')
         .attr('x', d => d.x + 0.5)
