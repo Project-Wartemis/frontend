@@ -19,7 +19,9 @@ export class GameChessStateService {
 
   public processNewState(raw: object): void {
     const state: State = Object.assign({} as State, raw);
-    const chars = state.fen.split(' ')[0];
+    const parts = state.fen.split(' ');
+    const ply = (+parts[5]) * 2 + (parts[1] === 'w' ? 0 : 1);
+    const chars = parts[0];
     const pieces = [];
     let x = 0;
     let y = 0;
@@ -34,7 +36,7 @@ export class GameChessStateService {
         continue;
       }
       pieces.push({
-        id: x + 8 * y,
+        id: x + 8 * y + 64 * ply,
         code: this.characterToCode(char),
         x,
         y
