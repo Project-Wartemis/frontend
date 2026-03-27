@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   /*http_root: '/api/',
   ws_root: 'ws://localhost:8080/'*/
-  http_root: 'http://api.wartemis.com/',
-  ws_root: 'ws://api.wartemis.com/'
+  http_root: 'http://wartemis.vectordungeon.com/api',
+  ws_root: 'ws://wartemis.vectordungeon.com/api'
 };
 
 /*
