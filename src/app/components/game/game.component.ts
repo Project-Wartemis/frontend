@@ -10,6 +10,7 @@ import { GameConquestStateService } from 'services/game/conquest/game-conquest-s
 import { GamePlanetWarsStateService } from 'services/game/planet-wars/game-planet-wars-state.service';
 import { GameTicTacToeStateService } from 'services/game/tic-tac-toe/game-tic-tac-toe-state.service';
 import { GameChessStateService } from 'services/game/chess/game-chess-state.service';
+import { GameHexTacToeStateService } from 'services/game/hex-tac-toe/game-hex-tac-toe-state.service';
 import { LobbyService } from 'services/lobby/lobby.service';
 import { WebsocketService } from 'services/websocket/websocket.service';
 import { AddBotToGameDialogComponent } from 'components/dialogs/add-bot-to-game/add-bot-to-game.component';
@@ -23,6 +24,7 @@ import { AddBotToGameDialogComponent } from 'components/dialogs/add-bot-to-game/
     GamePlanetWarsStateService,
     GameTicTacToeStateService,
     GameChessStateService,
+    GameHexTacToeStateService,
   ],
 })
 export class GameComponent implements OnInit, OnDestroy {
@@ -47,6 +49,7 @@ export class GameComponent implements OnInit, OnDestroy {
     private gamePlanetWarsStateService: GamePlanetWarsStateService,
     private gameTicTacToeStateService: GameTicTacToeStateService,
     private gameChessStateService: GameChessStateService,
+    private gameHexTacToeStateService: GameHexTacToeStateService,
     private lobbyService: LobbyService,
     private websocketService: WebsocketService,
   ) { }
@@ -199,6 +202,7 @@ export class GameComponent implements OnInit, OnDestroy {
       case 'Planet Wars': this.gamePlanetWarsStateService.processNewState(state); break;
       case 'Tic Tac Toe': this.gameTicTacToeStateService.processNewState(state); break;
       case 'Chess': this.gameChessStateService.processNewState(state); break;
+      case 'Hex Tac Toe': this.gameHexTacToeStateService.processNewState(state); break;
     }
   }
 }
